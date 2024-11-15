@@ -21,8 +21,6 @@ metadata:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
     app.kubernetes.io/version: {{ include "knative-serving.version" . }}
-  annotations:
-    knative.dev/example-checksum: "0573e07d"
 data:
 {{- range $key, $value := .Values.config.network }}
   {{ $key }}: {{ $value }}
