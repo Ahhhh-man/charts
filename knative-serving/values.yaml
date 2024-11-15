@@ -34,7 +34,6 @@ config:
   defaults:
   deployment:
   domain:
-    example.com: ""
   features:
   gc:
   leaderElection:
