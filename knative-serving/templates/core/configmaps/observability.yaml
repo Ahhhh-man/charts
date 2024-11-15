@@ -21,8 +21,6 @@ metadata:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: observability
     app.kubernetes.io/version: {{ include "knative-serving.version" . }}
-  annotations:
-    knative.dev/example-checksum: "54abd711"
 data:
 {{- range $key, $value := .Values.config.observability }}
   {{ $key }}: {{ $value }}

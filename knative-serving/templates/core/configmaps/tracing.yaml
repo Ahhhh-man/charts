@@ -21,8 +21,6 @@ metadata:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: tracing
     app.kubernetes.io/version: {{ include "knative-serving.version" . }}
-  annotations:
-    knative.dev/example-checksum: "26614636"
 data:
 {{- range $key, $value := .Values.config.tracing }}
   {{ $key }}: {{ $value }}
