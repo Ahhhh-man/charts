@@ -17,7 +17,10 @@ kind: Deployment
 metadata:
   name: activator
   namespace: knative-serving
-  labels: {{ include "common.labels.standard" . | nindent 4 }}
+  labels:
+    app.kubernetes.io/component: activator
+    app.kubernetes.io/name: knative-serving
+    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
 spec:
   selector:
     matchLabels:
@@ -25,9 +28,12 @@ spec:
       role: activator
   template:
     metadata:
-      labels: {{ include "common.labels.standard" . | nindent 4 }}
+      labels:
         app: activator
         role: activator
+        app.kubernetes.io/component: activator
+        app.kubernetes.io/name: knative-serving
+        app.kubernetes.io/version: {{ include "knative-serving.version" . }}
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
