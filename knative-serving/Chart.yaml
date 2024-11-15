@@ -10,16 +10,16 @@ appVersion: 1.16.0
 description: |
   Knative Serving builds on Kubernetes to support deploying and serving of applications and
   functions as serverless containers.
-home: http://gitea.ahhhh.local/ahhhh-man/charts
+home: https://github.com/ahhhh-man/charts
 icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
 keywords:
   - knative
   - serving
 maintainers:
   - name: Ahhhh-man
-    url: http://gitea.ahhhh.local/ahhhh-man
+    url: https://github.com/ahhhh-man
 name: knative-serving
 sources:
-  - http://gitea.ahhhh.local/ahhhh-man/charts/knative-serving
+  - https://github.com/ahhhh-man/charts/knative-serving
 type: application
 version: 0.1.0
