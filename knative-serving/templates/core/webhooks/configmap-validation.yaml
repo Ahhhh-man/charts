@@ -36,10 +36,10 @@ webhooks:
           values: ["knative-serving"]
         - key: app.kubernetes.io/component
           operator: In
+          # NOTE: we omit "controller" due to issue overriding the domain configmap
           values:
             [
               "autoscaler",
-              "controller",
               "logging",
               "networking",
               "observability",
