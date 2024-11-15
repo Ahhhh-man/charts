@@ -26,6 +26,7 @@
           kubeconform
           (wrapHelm kubernetes-helm { plugins = [ kubernetes-helmPlugins.helm-diff ]; })
           helmfile
+          kn
         ];
       in
       {
