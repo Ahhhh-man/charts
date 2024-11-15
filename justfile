@@ -14,11 +14,14 @@ alias r:=restart
 
 install: restart
     helm install knative-serving knative-serving \
-        --values knative-serving/values.yaml
+        --set config.domain."example\.com"=""
 
 uninstall:
     helm uninstall knative-serving
 
 upgrade:
     helm upgrade knative-serving knative-serving \
-        --values knative-serving/values.yaml
+        --set config.domain."example\.com"="" --set config.domain.abc=""
+
+lint:
+    helm lint knative-serving
