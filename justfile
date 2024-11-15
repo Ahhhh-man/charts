@@ -13,15 +13,13 @@ restart: down up
 alias r:=restart
 
 install: restart
-    helm install knative-serving knative-serving \
-        --set config.domain."example\.com"=""
+    helm install knative-serving knative-serving -f knative-serving/values.yaml
 
 uninstall:
     helm uninstall knative-serving
 
 upgrade:
-    helm upgrade knative-serving knative-serving \
-        --set config.domain."example\.com"="" --set config.domain.abc=""
+    helm upgrade --install knative-serving knative-serving -f knative-serving/values.yaml
 
 lint:
     helm lint knative-serving
