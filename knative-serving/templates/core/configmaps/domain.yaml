@@ -21,8 +21,6 @@ metadata:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
     app.kubernetes.io/version: {{ include "knative-serving.version" . }}
-  annotations:
-    knative.dev/example-checksum: "26c09de5"
 data:
 {{- range $key, $value := .Values.config.domain }}
   {{ $key }}: {{ $value }}

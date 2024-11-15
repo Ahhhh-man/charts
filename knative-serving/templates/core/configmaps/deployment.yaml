@@ -21,8 +21,6 @@ metadata:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
     app.kubernetes.io/version: {{ include "knative-serving.version" . }}
-  annotations:
-    knative.dev/example-checksum: "720ddb97"
 data:
   # This is the Go import path for the binary that is containerized
   # and substituted here.
