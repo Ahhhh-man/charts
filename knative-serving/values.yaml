@@ -26,7 +26,7 @@ commonLabels:
 ##
 commonAnnotations: {}
 
-## @section Knative Serving configmaps
+## @section knative-serving configmaps
 ##
 config:
   autoscaler:
@@ -45,7 +45,7 @@ config:
   observability:
   tracing:
 
-## @section Knative Serving Components
+## @section knative-serving components
 ##
 activator:
   image:
