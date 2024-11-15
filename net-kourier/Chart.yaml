@@ -1,0 +1,26 @@
+# Copyright 2024 Ahhhh-man. All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+annotations:
+  category: DeveloperTools
+  licenses: Apache-2.0
+apiVersion: v2
+appVersion: 1.16.0
+description: |
+  Knative Serving builds on Kubernetes to support deploying and serving of applications and
+  functions as serverless containers.
+home: https://github.com/ahhhh-man/charts
+icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+keywords:
+  - knative
+  - serving
+  - networking
+maintainers:
+  - name: Ahhhh-man
+    url: https://github.com/ahhhh-man
+name: net-kourier
+sources:
+  - https://github.com/ahhhh-man/charts/net-kourier
+type: application
+version: 0.1.0
