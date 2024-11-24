@@ -24,7 +24,10 @@
           just
           yq-go
           kubeconform
-          (wrapHelm kubernetes-helm { plugins = [ kubernetes-helmPlugins.helm-diff ]; })
+          (wrapHelm kubernetes-helm {plugins = with kubernetes-helmPlugins; [ 
+              helm-diff 
+              helm-cm-push 
+          ];})
           helmfile
           kn
         ];
