@@ -18,7 +18,7 @@ metadata:
   namespace: knative-eventing
   name: knative-eventing-webhook
   labels:
-    app.kubernetes.io/version: "1.16.2"
+    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
     app.kubernetes.io/name: knative-eventing
 rules:
   # For manipulating certs into secrets.
