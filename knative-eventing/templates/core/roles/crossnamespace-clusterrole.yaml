@@ -18,7 +18,7 @@ kind: ClusterRole
 metadata:
   name: crossnamespace-subscriber
   labels:
-    app.kubernetes.io/version: "1.16.2"
+    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
     app.kubernetes.io/name: knative-eventing
 aggregationRule:
   clusterRoleSelectors:
@@ -32,7 +32,7 @@ metadata:
   name: channel-subscriber
   labels:
     duck.knative.dev/crossnamespace-subscribable: "true"
-    app.kubernetes.io/version: "1.16.2"
+    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
     app.kubernetes.io/name: knative-eventing
 rules:
   - apiGroups:
@@ -48,7 +48,7 @@ metadata:
   name: broker-subscriber
   labels:
     duck.knative.dev/crossnamespace-subscribable: "true"
-    app.kubernetes.io/version: "1.16.2"
+    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
     app.kubernetes.io/name: knative-eventing
 rules:
   - apiGroups:

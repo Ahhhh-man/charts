@@ -19,7 +19,7 @@ metadata:
   namespace: knative-eventing
   labels:
     app.kubernetes.io/component: eventing-webhook
-    app.kubernetes.io/version: "1.16.2"
+    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
     app.kubernetes.io/name: knative-eventing
 spec:
   scaleTargetRef:
@@ -44,7 +44,7 @@ metadata:
   namespace: knative-eventing
   labels:
     app.kubernetes.io/component: eventing-webhook
-    app.kubernetes.io/version: "1.16.2"
+    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
     app.kubernetes.io/name: knative-eventing
 spec:
   minAvailable: 80%
