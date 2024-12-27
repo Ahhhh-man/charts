@@ -1,0 +1,84 @@
+# Copyright 2024 Ahhhh-man. All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+## Global Docker image parameters
+## Please, note that this will override the image parameters, including dependencies, configured to use the global value
+## Current available global Docker image parameters: imageRegistry and imagePullSecrets
+## @section Global parameters
+## @param global.imageRegistry Global Docker image registry
+## @param global.imagePullSecrets Global Docker registry secret names as an array
+## @param global.defaultStorageClass Global default StorageClass for Persistent Volume(s)
+##
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  defaultStorageClass: ""
+
+## @section Common parameters
+##
+
+## @param commonLabels Labels to add to all deployed objects (sub-charts are not considered)
+##
+commonLabels:
+  global-label: ""
+## @param commonAnnotations Annotations to add to all deployed objects
+##
+commonAnnotations: {}
+
+## @section knative-serving configmaps
+##
+config:
+  autoscaler:
+  certmanager:
+  defaults:
+  deployment:
+  domain:
+    ## NOTE: use `|` due empty string being omitted
+    ## example.com: |
+    ##  ""
+  features:
+  gc:
+  leaderElection:
+  logging:
+  network:
+  observability:
+  tracing:
+
+## @section knative-serving components
+##
+activator:
+  image:
+    registry: gcr.io/knative-releases
+    repository: knative.dev/serving/cmd/activator
+    tag: ""
+    digest: sha256:24c19cbee078925b91cd2e85082b581d53b218b410c083b1005dc06dc549b1d3
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+
+autoscaler:
+  image:
+    registry: gcr.io/knative-releases
+    repository: knative.dev/serving/cmd/autoscaler
+    tag: ""
+    digest: sha256:5e9236452d89363957d4e7e249d57740a8fcd946aed23f8518d94962bf440250
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+
+controller:
+  image:
+    registry: gcr.io/knative-releases
+    repository: knative.dev/serving/cmd/controller
+    tag: ""
+    digest: sha256:5fb22b052e6bc98a1a6bbb68c0282ddb50744702acee6d83110302bc990666e9
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+
+webhook:
+  image:
+    registry: gcr.io/knative-releases
+    repository: knative.dev/serving/cmd/webhook
+    tag: ""
+    digest: sha256:0fb5a4245aa4737d443658754464cd0a076de959fe14623fb9e9d31318ccce24
+    pullPolicy: IfNotPresent
+    pullSecrets: []
