@@ -31,6 +31,7 @@
           helmfile
           kn
           func
+          chart-testing
         ];
       in
       {
