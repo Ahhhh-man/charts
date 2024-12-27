@@ -19,10 +19,6 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/version: "1.16.0"
-    knative.dev/crd-install: "true"
-    meta.helm.sh/release-name: knative-serving
-    meta.helm.sh/release-namespace: knative-serving
-    app.kubernetes.io/managed-by: Helm
 spec:
   group: caching.internal.knative.dev
   names:
