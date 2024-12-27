@@ -30,6 +30,7 @@
           ];})
           helmfile
           kn
+          func
         ];
       in
       {
