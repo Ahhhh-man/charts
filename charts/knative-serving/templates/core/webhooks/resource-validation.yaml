@@ -27,7 +27,7 @@
 #     clientConfig:
 #       service:
 #         name: webhook
-#         namespace: knative-serving
+#         namespace: "{{ .Release.Namespace }}"
 #     failurePolicy: Fail
 #     sideEffects: None
 #     name: validation.webhook.serving.knative.dev

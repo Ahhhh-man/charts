@@ -16,7 +16,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webhook
-  namespace: knative-serving
+  namespace: "{{ .Release.Namespace }}"
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/version: {{ include "knative-serving.version" . }}
@@ -119,7 +119,7 @@ metadata:
     app.kubernetes.io/version: {{ include "knative-serving.version" . }}
     app.kubernetes.io/name: knative-serving
   name: webhook
-  namespace: knative-serving
+  namespace: "{{ .Release.Namespace }}"
 spec:
   ports:
     # Define metrics and profiling for them to be accessible within service meshes.
