@@ -16,7 +16,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: config-autoscaler
-  namespace: knative-serving
+  namespace: "{{ .Release.Namespace }}"
   labels:
     app.kubernetes.io/component: autoscaler
     app.kubernetes.io/name: knative-serving
