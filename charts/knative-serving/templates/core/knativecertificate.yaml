@@ -6,7 +6,7 @@ metadata:
   labels:
     networking.knative.dev/certificate-type: system-internal
   name: routing-serving-certs
-  namespace: knative-serving
+  namespace: "{{ .Release.Namespace }}"
 spec:
   dnsNames:
     - kn-routing
