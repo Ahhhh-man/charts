@@ -17,5 +17,7 @@ helm repo add ahhhh https://ahhhh-man.github.io/charts
 Install a Chart:
 
 ```sh
-helm install knative-serving ahhhh/knative-serving
+helm install knative-serving ahhhh/knative-serving --namespace knative-serving --create-namespace \
+    --set "config.domain.'example\.localhost'=" \
+    --set "config.network.ingress-class=kourier.ingress.networking.knative.dev"
 ```
