@@ -1,0 +1,76 @@
+apiVersion: v1
+entries:
+  knative-eventing:
+  - annotations:
+      category: DeveloperTools
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.16.2
+    created: "2024-12-29T00:20:27.200292513Z"
+    description: 'Event-driven application platform for Kubernetes '
+    digest: 834db3e2768ec7522bb047c29aaf82e5c79e1504eace61e23af7f0182dd07da8
+    home: https://github.com/ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - eventing
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/ahhhh-man
+    name: knative-eventing
+    sources:
+    - https://github.com/ahhhh-man/charts/knative-eventing
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/knative-eventing-0.1.0/knative-eventing-0.1.0.tgz
+    version: 0.1.0
+  knative-serving:
+  - annotations:
+      category: DeveloperTools
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-12-29T00:20:27.357358545Z"
+    description: 'Knative Serving builds on Kubernetes to support deploying and serving
+      of applications and functions as serverless containers. '
+    digest: 83ff48f72c0b352a562657b9dffc215d871fa37af0e75e05dea4506d47858fa5
+    home: https://github.com/ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - serving
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/ahhhh-man
+    name: knative-serving
+    sources:
+    - https://github.com/ahhhh-man/charts/knative-serving
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/knative-serving-0.1.3/knative-serving-0.1.3.tgz
+    version: 0.1.3
+  net-kourier:
+  - annotations:
+      category: DeveloperTools
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-12-29T00:20:27.509552419Z"
+    description: 'Kourier is an Ingress for Knative Serving. Kourier is a lightweight
+      alternative for the Istio ingress as its deployment consists only of an Envoy
+      proxy and a control plane for it. '
+    digest: 8464a5354eec44641cca4b39b76b0bdd99792b294458a1c0320a7db50bf8d903
+    home: https://github.com/ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - serving
+    - networking
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/ahhhh-man
+    name: net-kourier
+    sources:
+    - https://github.com/ahhhh-man/charts/net-kourier
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/net-kourier-0.1.1/net-kourier-0.1.1.tgz
+    version: 0.1.1
+generated: "2024-12-29T00:20:26.92939278Z"
