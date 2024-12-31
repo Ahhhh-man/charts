@@ -17,9 +17,8 @@ kind: CustomResourceDefinition
 metadata:
   name: jobsinks.sinks.knative.dev
   labels:
-    knative.dev/crd-install: "true"
     duck.knative.dev/addressable: "true"
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
+    app.kubernetes.io/version: "1.16.2"
     app.kubernetes.io/name: knative-eventing
 spec:
   group: sinks.knative.dev
