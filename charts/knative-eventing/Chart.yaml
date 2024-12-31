@@ -9,16 +9,16 @@ apiVersion: v2
 appVersion: 1.16.2
 description: |
   Event-driven application platform for Kubernetes
-home: https://github.com/ahhhh-man/charts
+home: https://github.com/Ahhhh-man/charts
 icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
 keywords:
   - knative
   - eventing
 maintainers:
   - name: Ahhhh-man
-    url: https://github.com/ahhhh-man
+    url: https://github.com/Ahhhh-man
 name: knative-eventing
 sources:
-  - https://github.com/ahhhh-man/charts/knative-eventing
+  - https://github.com/Ahhhh-man/charts/charts/knative-eventing
 type: application
-version: 0.1.0
+version: 0.1.1
