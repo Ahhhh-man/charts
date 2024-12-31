@@ -12,14 +12,5 @@ restart: down up
 
 alias r:=restart
 
-install: restart
-    helm install knative-serving knative-serving -f knative-serving/values.yaml
-
-uninstall:
-    helm uninstall knative-serving
-
-upgrade:
-    helm upgrade --install knative-serving knative-serving -f knative-serving/values.yaml
-
-lint:
-    helm lint knative-serving
+ct:
+    ct lint --config ct.yaml
