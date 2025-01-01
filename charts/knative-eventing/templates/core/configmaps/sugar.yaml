@@ -16,10 +16,13 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: config-sugar
-  namespace: knative-eventing
+  namespace: "{{ .Release.Namespace }}"
   labels:
     app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
     app.kubernetes.io/name: knative-eventing
   annotations:
     knative.dev/example-checksum: "62dfac6f"
 data:
+{{- range $key, $value := .Values.config.sugar }}
+  {{ $key }}: {{ $value | toYaml | indent 4 | trim }}
+{{- end }}

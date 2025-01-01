@@ -24,7 +24,7 @@ webhooks:
     clientConfig:
       service:
         name: eventing-webhook
-        namespace: knative-eventing
+        namespace: "{{ .Release.Namespace }}"
     sideEffects: None
     failurePolicy: Fail
     name: validation.webhook.eventing.knative.dev

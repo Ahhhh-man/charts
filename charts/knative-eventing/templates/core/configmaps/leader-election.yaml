@@ -16,10 +16,13 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: config-leader-election
-  namespace: knative-eventing
+  namespace: "{{ .Release.Namespace }}"
   labels:
     app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
     app.kubernetes.io/name: knative-eventing
   annotations:
     knative.dev/example-checksum: "f7948630"
 data:
+{{- range $key, $value := .Values.config.leaderElection }}
+  {{ $key }}: {{ $value | toYaml | indent 4 | trim }}
+{{- end }}
