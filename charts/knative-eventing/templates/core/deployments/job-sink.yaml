@@ -16,7 +16,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: job-sink
-  namespace: knative-eventing
+  namespace: "{{ .Release.Namespace }}"
   labels:
     app.kubernetes.io/component: job-sink
     app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
@@ -132,7 +132,7 @@ metadata:
     app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
     app.kubernetes.io/name: knative-eventing
   name: job-sink
-  namespace: knative-eventing
+  namespace: "{{ .Release.Namespace }}"
 spec:
   ports:
     - name: http

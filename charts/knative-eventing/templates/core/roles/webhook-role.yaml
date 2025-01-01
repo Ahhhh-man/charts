@@ -15,7 +15,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  namespace: knative-eventing
+  namespace: "{{ .Release.Namespace }}"
   name: knative-eventing-webhook
   labels:
     app.kubernetes.io/version: {{ include "knative-eventing.version" . }}

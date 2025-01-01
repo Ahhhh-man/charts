@@ -1,3 +1,106 @@
 # Copyright 2024 Ahhhh-man. All rights reserved.
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
+
+
+## @section knative-eventing configmaps
+
+## Knative Eventing ConfigMaps
+## https://knative.dev/docs/eventing/
+##
+config:
+  ## TODO: Enable the following ConfigMaps to customize the default configuration
+  ##
+  ## @param config.default.brChannel default broker channel template spec
+  ## @param config.default.broker default broker config
+  ## @param config.default.channel.webhook default channel config
+  ## @param config.default.ping default pingsource config
+  # default:
+  #   brChannel:
+  #   broker:
+  #   channel:
+  #     webhook:
+  #   ping:
+  ## @param config.features feature flags for Knative Eventing
+  features:
+    # ALPHA feature: The kreference-group allows you to use the Group field in KReferences.
+    # For more details: https://github.com/knative/eventing/issues/5086
+    kreference-group: "disabled"
+    # ALPHA feature: The delivery-retryafter allows you to use the RetryAfter field in DeliverySpec.
+    # For more details: https://github.com/knative/eventing/issues/5811
+    delivery-retryafter: "disabled"
+    # BETA feature: The delivery-timeout allows you to use the Timeout field in DeliverySpec.
+    # For more details: https://github.com/knative/eventing/issues/5148
+    delivery-timeout: "enabled"
+    # ALPHA feature: The kreference-mapping allows you to map kreference onto templated URI
+    # For more details: https://github.com/knative/eventing/issues/5593
+    kreference-mapping: "disabled"
+    # BETA feature: The transport-encryption flag allows you to encrypt events in transit using the transport layer security (TLS) protocol.
+    # For more details: https://github.com/knative/eventing/issues/5957
+    transport-encryption: "disabled"
+    # ALPHA feature: The eventtype-auto-create flag allows automatic creation of Even Type instances based on Event's type being processed.
+    # For more details: https://github.com/knative/eventing/issues/6909
+    eventtype-auto-create: "disabled"
+    # ALPHA feature: The aauthentication-oidc flag allows you to use OIDC authentication for Eventing.
+    # For more details: https://github.com/knative/eventing/issues/7174
+    authentication-oidc: "disabled"
+    # ALPHA feature: The default-authorization-mode flag allows you to change the default
+    # authorization mode for resources that have no EventPolicy associated with them.
+    #
+    # This feature flag is only used when "authentication-oidc" is enabled.
+    default-authorization-mode: "allow-same-namespace"
+    # ALPHA feature: The cross-namespace-event-links flag allows you to use cross-namespace referencing for Eventing.
+    # For more details: https://github.com/knative/eventing/issues/7739
+    cross-namespace-event-links: "disabled"
+    # ALPHA feature: The new-apiserversource-filters flag allows you to use the new `filters` field
+    # in APIServerSource objects with its rich filtering capabilities.
+    new-apiserversource-filters: "disabled"
+  ## @param config.kreferenceMapping provide mappings from a Knative reference to a templated URI
+  ## https://knative.dev/docs/eventing/features/kreference-mapping/
+  kreferenceMapping:
+  ## @param config.leaderElection leader election configuration for high-availability deployments
+  ## https://knative.dev/docs/serving/config-ha/
+  leaderElection:
+  ## @param config.logging global logging configuration for Knative Eventing
+  ## https://knative.dev/docs/serving/observability/logging/config-logging/
+  logging:
+    # Common configuration for all Knative codebase
+    "zap-logger-config": |
+      {
+        "level": "info",
+        "development": false,
+        "outputPaths": ["stdout"],
+        "errorOutputPaths": ["stderr"],
+        "encoding": "json",
+        "encoderConfig": {
+          "timeKey": "ts",
+          "levelKey": "level",
+          "nameKey": "logger",
+          "callerKey": "caller",
+          "messageKey": "msg",
+          "stacktraceKey": "stacktrace",
+          "lineEnding": "",
+          "levelEncoder": "",
+          "timeEncoder": "iso8601",
+          "durationEncoder": "",
+          "callerEncoder": ""
+        }
+      }
+    # Log level overrides
+    # For all components changes are be picked up immediately.
+    "loglevel.controller": "info"
+    "loglevel.webhook": "info"
+  ## @param config.observability global observability configuration
+  ## https://knative.dev/docs/serving/observability/metrics/collecting-metrics/#set-up-the-collector
+  observability:
+  ## @param config.sugar produce or control eventing resources
+  ## https://knative.dev/docs/eventing/sugar/
+  sugar:
+  ## @param config.tracing global tracing configuration for Knative Eventing
+  ## e.g:
+  ## tracing:
+  ##   backend: zipkin
+  ##   zipkin-endpoint: http://opentelemetry-collector:9411/api/v2/spans
+  ##   debug: "false"
+  ##   sampling-rate: "0.1"
+  tracing:

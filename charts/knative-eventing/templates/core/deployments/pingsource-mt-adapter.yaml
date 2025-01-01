@@ -16,7 +16,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pingsource-mt-adapter
-  namespace: knative-eventing
+  namespace: "{{ .Release.Namespace }}"
   labels:
     app.kubernetes.io/component: pingsource-mt-adapter
     app.kubernetes.io/version: "1.16.2"
