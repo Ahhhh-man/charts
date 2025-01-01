@@ -16,7 +16,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: eventing-webhook
-  namespace: knative-eventing
+  namespace: "{{ .Release.Namespace }}"
   labels:
     app.kubernetes.io/component: eventing-webhook
     app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
@@ -41,7 +41,7 @@ apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: eventing-webhook
-  namespace: knative-eventing
+  namespace: "{{ .Release.Namespace }}"
   labels:
     app.kubernetes.io/component: eventing-webhook
     app.kubernetes.io/version: {{ include "knative-eventing.version" . }}

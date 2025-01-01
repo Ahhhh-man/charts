@@ -16,7 +16,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: eventing-controller
-  namespace: knative-eventing
+  namespace: "{{ .Release.Namespace }}"
   labels:
     knative.dev/high-availability: "true"
     app.kubernetes.io/component: eventing-controller
