@@ -1,5 +1,7 @@
 # Charts for Knative
 
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/ahhhh)](https://artifacthub.io/packages/search?repo=ahhhh)
+
 This repository contains [Helm](https://helm.sh) charts for various knative projects
 
 * [knative-serving](charts/knative-serving/)
