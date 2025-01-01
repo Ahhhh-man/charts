@@ -6,6 +6,29 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 1.16.2
+    created: "2025-01-01T14:05:11.940696934Z"
+    description: 'Event-driven application platform for Kubernetes '
+    digest: 9c7d0ef7e38dded869c1bf428ea87fa5ff2f9b94013c4c7495aa4b9931732515
+    home: https://github.com/Ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - eventing
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/Ahhhh-man
+    name: knative-eventing
+    sources:
+    - https://github.com/Ahhhh-man/charts/charts/knative-eventing
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/knative-eventing-0.2.1/knative-eventing-0.2.1.tgz
+    version: 0.2.1
+  - annotations:
+      category: DeveloperTools
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.16.2
     created: "2025-01-01T13:20:49.253362645Z"
     description: 'Event-driven application platform for Kubernetes '
     digest: d9f3a3a5d667c9fe5b962bc8772faef0bd6c93c7ff6558d20b9b45489d8dfa03
@@ -98,6 +121,30 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-01-01T14:05:12.047599394Z"
+    description: 'Knative Serving builds on Kubernetes to support deploying and serving
+      of applications and functions as serverless containers. '
+    digest: 5c416b397716ce8125cffd302785ec1e865fb86b44471c83407336f29a7cd536
+    home: https://github.com/Ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - serving
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/Ahhhh-man
+    name: knative-serving
+    sources:
+    - https://github.com/Ahhhh-man/charts/charts/knative-serving
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/knative-serving-0.1.5/knative-serving-0.1.5.tgz
+    version: 0.1.5
+  - annotations:
+      category: DeveloperTools
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.16.0
     created: "2024-12-29T21:32:34.622779314Z"
     description: 'Knative Serving builds on Kubernetes to support deploying and serving
       of applications and functions as serverless containers. '
@@ -166,4 +213,4 @@ entries:
     urls:
     - https://github.com/Ahhhh-man/charts/releases/download/net-kourier-0.1.1/net-kourier-0.1.1.tgz
     version: 0.1.1
-generated: "2025-01-01T13:20:49.498699504Z"
+generated: "2025-01-01T14:05:12.047629219Z"
