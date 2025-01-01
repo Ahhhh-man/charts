@@ -29,6 +29,7 @@
 # Include all yaml and tpl files recursively
 !**/*.yaml
 !**/*.tpl
+!**/NOTES.txt
 
 # Recursively include all files in the following directorie
 !*/
