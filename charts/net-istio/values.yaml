@@ -1,0 +1,12 @@
+# Copyright 2024 Ahhhh-man. All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+controller:
+  image:
+    registry: gcr.io
+    repository: knative-releases/knative.dev/net-istio/cmd/controller
+    tag: ""
+    digest: sha256:e70bc675f97778da144157f125b3001124ba7a5903b85dab9e77776352fea1c7
+    pullPolicy: IfNotPresent
+    pullSecrets: []

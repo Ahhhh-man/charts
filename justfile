@@ -12,5 +12,8 @@ restart: down up
 
 alias r:=restart
 
-ct:
+lint:
     ct lint --config ct.yaml
+
+test:
+    ct install --config ct.yaml
