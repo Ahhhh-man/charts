@@ -33,6 +33,7 @@
           kn
           func
           chart-testing
+          istioctl
         ];
       in
       {
