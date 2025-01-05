@@ -6,6 +6,7 @@ This repository contains [Helm](https://helm.sh) charts for various knative proj
 
 * [knative-serving](charts/knative-serving/)
 * [net-kourier](charts/net-kourier/)
+* [net-istio](charts/net-istio/)
 * [knative-eventing](charts/knative-eventing/)
 
 ## Installing Charts from this Repository
@@ -16,10 +17,17 @@ Add the Repository to Helm:
 helm repo add ahhhh https://ahhhh-man.github.io/charts
 ```
 
-Install a Chart:
+Install serving:
 
 ```sh
 helm install knative-serving ahhhh/knative-serving --namespace knative-serving --create-namespace \
     --set "config.domain.'example\.localhost'=" \
-    --set "config.network.ingress-class=kourier.ingress.networking.knative.dev"
+    --set "config.network.ingress-class=istio.ingress.networking.knative.dev"
+```
+
+Install networking layer:
+
+```sh
+istioctl install --set profile=demo
+helm install net-istio ahhhh/net-istio --namespace knative-serving
 ```

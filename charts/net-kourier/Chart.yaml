@@ -9,17 +9,18 @@ apiVersion: v2
 appVersion: 1.16.0
 description: |
   Kourier is an Ingress for Knative Serving. Kourier is a lightweight alternative for the Istio ingress as its deployment consists only of an Envoy proxy and a control plane for it.
-home: https://github.com/ahhhh-man/charts
+home: https://github.com/Ahhhh-man/charts
 icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
 keywords:
   - knative
   - serving
   - networking
+  - kourier
 maintainers:
   - name: Ahhhh-man
-    url: https://github.com/ahhhh-man
+    url: https://github.com/Ahhhh-man
 name: net-kourier
 sources:
-  - https://github.com/ahhhh-man/charts/net-kourier
+  - https://github.com/Ahhhh-man/charts/tree/main/charts/net-kourier
 type: application
-version: 0.1.1
+version: 0.1.2

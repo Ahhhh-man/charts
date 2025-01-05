@@ -44,6 +44,10 @@ spec:
       containers:
         - image: {{ template "net-kourier.controller.image" . }}
           imagePullPolicy: {{ .Values.controller.image.pullPolicy }}
+          {{- with .Values.controller.image.pullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           name: controller
           env:
             - name: CERTS_SECRET_NAMESPACE
