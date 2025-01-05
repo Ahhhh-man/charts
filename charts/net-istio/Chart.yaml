@@ -3,8 +3,8 @@
 # license that can be found in the LICENSE file.
 
 annotations:
-  category: DeveloperTools
-  licenses: Apache-2.0
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/prerelease: "true"
 apiVersion: v2
 appVersion: 1.16.0
 description: |
@@ -23,4 +23,4 @@ name: net-istio
 sources:
   - https://github.com/Ahhhh-man/charts/tree/main/charts/net-istio
 type: application
-version: 0.1.0
+version: 0.1.1
