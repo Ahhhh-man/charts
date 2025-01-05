@@ -245,6 +245,33 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-01-05T12:38:30.303468846Z"
+    description: 'Kourier is an Ingress for Knative Serving. Kourier is a lightweight
+      alternative for the Istio ingress as its deployment consists only of an Envoy
+      proxy and a control plane for it. '
+    digest: 1e1a264041484d6baacb89b8c56e4c3bf7cf5c9ddd9a85bf8b2da292256c4e89
+    home: https://github.com/Ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - serving
+    - networking
+    - kourier
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/Ahhhh-man
+    name: net-kourier
+    sources:
+    - https://github.com/Ahhhh-man/charts/tree/main/charts/net-kourier
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/net-kourier-0.1.2/net-kourier-0.1.2.tgz
+    version: 0.1.2
+  - annotations:
+      category: DeveloperTools
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.16.0
     created: "2024-12-29T00:20:27.509552419Z"
     description: 'Kourier is an Ingress for Knative Serving. Kourier is a lightweight
       alternative for the Istio ingress as its deployment consists only of an Envoy
@@ -265,4 +292,4 @@ entries:
     urls:
     - https://github.com/Ahhhh-man/charts/releases/download/net-kourier-0.1.1/net-kourier-0.1.1.tgz
     version: 0.1.1
-generated: "2025-01-05T12:27:58.035601721Z"
+generated: "2025-01-05T12:38:30.303497179Z"
