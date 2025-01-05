@@ -4,10 +4,11 @@
 
 This repository contains [Helm](https://helm.sh) charts for various knative projects
 
-* [knative-serving](charts/knative-serving/)
-* [net-kourier](charts/net-kourier/)
-* [net-istio](charts/net-istio/)
-* [knative-eventing](charts/knative-eventing/)
+* [knative-serving](https://github.com/Ahhhh-man/charts/tree/main/charts/knative-serving)
+* [kourier](https://github.com/Ahhhh-man/charts/tree/main/charts/kourier)
+* [net-kourier](https://github.com/Ahhhh-man/charts/tree/main/charts/net-kourier)
+* [net-istio](https://github.com/Ahhhh-man/charts/tree/main/charts/net-istio)
+* [knative-eventing](https://github.com/Ahhhh-man/charts/tree/main/charts/knative-eventing/)
 
 ## Installing Charts from this Repository
 
