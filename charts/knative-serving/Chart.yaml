@@ -3,13 +3,13 @@
 # license that can be found in the LICENSE file.
 
 annotations:
-  category: DeveloperTools
-  licenses: Apache-2.0
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/prerelease: "true"
 apiVersion: v2
 appVersion: 1.16.0
 description: |
   Knative Serving builds on Kubernetes to support deploying and serving of applications and
-  functions as serverless containers.
+  functions as serverless containers
 home: https://github.com/Ahhhh-man/charts
 icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
 keywords:
@@ -20,6 +20,6 @@ maintainers:
     url: https://github.com/Ahhhh-man
 name: knative-serving
 sources:
-  - https://github.com/Ahhhh-man/charts/charts/knative-serving
+  - https://github.com/Ahhhh-man/charts/tree/main/charts/knative-serving
 type: application
-version: 0.1.6
+version: 0.1.7
