@@ -12,15 +12,14 @@ description: |
 home: https://github.com/Ahhhh-man/charts
 icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
 keywords:
-  - knative
-  - serving
-  - networking
   - kourier
+  - knative
+  - networking
 maintainers:
   - name: Ahhhh-man
     url: https://github.com/Ahhhh-man
-name: net-kourier
+name: kourier
 sources:
-  - https://github.com/Ahhhh-man/charts/tree/main/charts/net-kourier
+  - https://github.com/Ahhhh-man/charts/tree/main/charts/kourier
 type: application
-version: 0.2.0
+version: 0.1.0
