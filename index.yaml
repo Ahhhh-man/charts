@@ -2,6 +2,32 @@ apiVersion: v1
 entries:
   knative-eventing:
   - annotations:
+      artifacthub.io/category: Infrastructure
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/prerelease: "true"
+      category: Infrastructure
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.16.2
+    created: "2025-01-05T19:18:43.077425445Z"
+    description: 'Event-driven application platform for Kubernetes '
+    digest: 2b17a3855fdbae3bfc1d7f8da986b55ca4b1ce71e9d0097dee10b5c885c541aa
+    home: https://github.com/Ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - eventing
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/Ahhhh-man
+    name: knative-eventing
+    sources:
+    - https://github.com/Ahhhh-man/charts/tree/main/charts/knative-eventing
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/knative-eventing-0.2.2/knative-eventing-0.2.2.tgz
+    version: 0.2.2
+  - annotations:
       category: DeveloperTools
       licenses: Apache-2.0
     apiVersion: v2
@@ -117,6 +143,33 @@ entries:
     version: 0.1.0
   knative-serving:
   - annotations:
+      artifacthub.io/category: Infrastructure
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/prerelease: "true"
+      category: Infrastructure
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-01-05T19:18:43.17165618Z"
+    description: 'Knative Serving builds on Kubernetes to support deploying and serving
+      of applications and functions as serverless containers '
+    digest: 174425f2bf31f161aa3e355db86d9ebc0a3defdcae064e80f320e6bd729c302f
+    home: https://github.com/Ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - serving
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/Ahhhh-man
+    name: knative-serving
+    sources:
+    - https://github.com/Ahhhh-man/charts/tree/main/charts/knative-serving
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/knative-serving-0.1.7/knative-serving-0.1.7.tgz
+    version: 0.1.7
+  - annotations:
       category: DeveloperTools
       licenses: Apache-2.0
     apiVersion: v2
@@ -213,6 +266,33 @@ entries:
     version: 0.1.3
   kourier:
   - annotations:
+      artifacthub.io/category: Infrastructure
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/prerelease: "true"
+      category: Infrastructure
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-01-05T19:18:43.266479921Z"
+    description: 'A lightweight Knative Serving ingress '
+    digest: 6cc06e60a32cbbb3b83761ce110594b99e48376127e0740e3d6ce854574d4784
+    home: https://github.com/Ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - kourier
+    - knative
+    - networking
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/Ahhhh-man
+    name: kourier
+    sources:
+    - https://github.com/Ahhhh-man/charts/tree/main/charts/kourier
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/kourier-0.1.1/kourier-0.1.1.tgz
+    version: 0.1.1
+  - annotations:
       category: DeveloperTools
       licenses: Apache-2.0
     apiVersion: v2
@@ -240,6 +320,34 @@ entries:
     version: 0.1.0
   net-istio:
   - annotations:
+      artifacthub.io/category: Infrastructure
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/prerelease: "true"
+      category: Infrastructure
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-01-05T19:18:43.388224302Z"
+    description: 'Knative net-istio defines a ingress controller for Istio '
+    digest: 0fc2de89041d27b0750a797bdfcf64be3f8b571d6d3f1932246451a0ef1b3d3d
+    home: https://github.com/ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - serving
+    - istio
+    - networking
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/ahhhh-man
+    name: net-istio
+    sources:
+    - https://github.com/Ahhhh-man/charts/tree/main/charts/net-istio
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/net-istio-0.1.1/net-istio-0.1.1.tgz
+    version: 0.1.1
+  - annotations:
       category: DeveloperTools
       licenses: Apache-2.0
     apiVersion: v2
@@ -265,6 +373,36 @@ entries:
     - https://github.com/Ahhhh-man/charts/releases/download/net-istio-0.1.0/net-istio-0.1.0.tgz
     version: 0.1.0
   net-kourier:
+  - annotations:
+      artifacthub.io/category: Infrastructure
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/prerelease: "true"
+      category: Infrastructure
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-01-05T19:18:43.512599395Z"
+    description: 'Kourier is an Ingress for Knative Serving. Kourier is a lightweight
+      alternative for the Istio ingress as its deployment consists only of an Envoy
+      proxy and a control plane for it. '
+    digest: ce378a4e5fbb866c313b5af92ad4afd4de5ceb6437e8456c5761dc64eda7cd4b
+    home: https://github.com/Ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - serving
+    - networking
+    - kourier
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/Ahhhh-man
+    name: net-kourier
+    sources:
+    - https://github.com/Ahhhh-man/charts/tree/main/charts/net-kourier
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/net-kourier-0.2.1/net-kourier-0.2.1.tgz
+    version: 0.2.1
   - annotations:
       category: DeveloperTools
       licenses: Apache-2.0
@@ -344,4 +482,4 @@ entries:
     urls:
     - https://github.com/Ahhhh-man/charts/releases/download/net-kourier-0.1.1/net-kourier-0.1.1.tgz
     version: 0.1.1
-generated: "2025-01-05T13:35:16.017587003Z"
+generated: "2025-01-05T19:18:43.512683853Z"
