@@ -213,6 +213,32 @@ entries:
     urls:
     - https://github.com/Ahhhh-man/charts/releases/download/net-isito-0.1.0/net-isito-0.1.0.tgz
     version: 0.1.0
+  net-istio:
+  - annotations:
+      category: DeveloperTools
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-01-05T12:27:58.035578688Z"
+    description: 'Knative net-istio defines a ingress controller for Istio '
+    digest: 9505cf9cdcb9646a70633b43c671b61e1326e53902afed06738da3d7c32937ea
+    home: https://github.com/ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - serving
+    - istio
+    - networking
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/ahhhh-man
+    name: net-istio
+    sources:
+    - https://github.com/Ahhhh-man/charts/tree/main/charts/net-istio
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/net-istio-0.1.0/net-istio-0.1.0.tgz
+    version: 0.1.0
   net-kourier:
   - annotations:
       category: DeveloperTools
@@ -239,4 +265,4 @@ entries:
     urls:
     - https://github.com/Ahhhh-man/charts/releases/download/net-kourier-0.1.1/net-kourier-0.1.1.tgz
     version: 0.1.1
-generated: "2025-01-05T12:23:15.841839874Z"
+generated: "2025-01-05T12:27:58.035601721Z"
