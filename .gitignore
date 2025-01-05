@@ -9,6 +9,7 @@
 # Allow documentation files
 !README.md
 !CODEOWNERS
+!LICENSE
 
 # Allow Nix files
 !.envrc
