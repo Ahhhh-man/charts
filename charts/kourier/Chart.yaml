@@ -3,12 +3,15 @@
 # license that can be found in the LICENSE file.
 
 annotations:
-  category: DeveloperTools
+  category: Infrastructure
   licenses: Apache-2.0
+  artifacthub.io/category: Infrastructure
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/prerelease: "true"
 apiVersion: v2
 appVersion: 1.16.0
 description: |
-  Kourier is an Ingress for Knative Serving. Kourier is a lightweight alternative for the Istio ingress as its deployment consists only of an Envoy proxy and a control plane for it.
+  A lightweight Knative Serving ingress
 home: https://github.com/Ahhhh-man/charts
 icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
 keywords:
@@ -22,4 +25,4 @@ name: kourier
 sources:
   - https://github.com/Ahhhh-man/charts/tree/main/charts/kourier
 type: application
-version: 0.1.0
+version: 0.1.1
