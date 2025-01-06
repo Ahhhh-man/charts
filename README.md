@@ -1,5 +1,6 @@
 # Charts for Knative
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/ahhhh)](https://artifacthub.io/packages/search?repo=ahhhh)
 
 This repository contains [Helm](https://helm.sh) charts for various knative projects
@@ -32,3 +33,6 @@ Install networking layer:
 istioctl install --set profile=demo
 helm install net-istio ahhhh/net-istio --namespace knative-serving
 ```
+
+## License
+[Apache 2.0 License](https://github.com/Ahhhh-man/charts/blob/main/LICENSE).
