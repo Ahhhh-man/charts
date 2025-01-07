@@ -12,17 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+{{- $controller := .Values.controller }}
+{{- if $controller.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: eventing-controller
-  namespace: "{{ .Release.Namespace }}"
+  namespace: {{ .Release.Namespace }}
   labels:
     knative.dev/high-availability: "true"
     app.kubernetes.io/component: eventing-controller
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
     bindings.knative.dev/exclude: "true"
+  annotations:
+    {{- include "knative-eventing.annotations" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
@@ -32,10 +35,8 @@ spec:
       labels:
         app: eventing-controller
         app.kubernetes.io/component: eventing-controller
-        app.kubernetes.io/version: "1.16.2"
-        app.kubernetes.io/name: knative-eventing
+        {{- include "knative-eventing.labels" . | nindent 8 }}
     spec:
-      # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -45,16 +46,22 @@ spec:
                     app: eventing-controller
                 topologyKey: kubernetes.io/hostname
               weight: 100
-      serviceAccountName: eventing-controller
-      enableServiceLinks: false
+      serviceAccountName: {{ $controller.serviceAccount.name }}
+      enableServiceLinks: {{ $controller.enableServiceLinks }}
       containers:
         - name: eventing-controller
           terminationMessagePolicy: FallbackToLogsOnError
-          image: gcr.io/knative-releases/knative.dev/eventing/cmd/controller@sha256:ae752dc6c90c34d18728cd2f7a24e3712e3b11a20479a32ac23b5982eedfca45
+          image: {{ template "knative-eventing.controller.image" . }}
+          imagePullPolicy: {{ $controller.image.pullPolicy }}
+          {{- with $controller.resources }}
+          resources:
+          {{- toYaml . | nindent 6 }}
+          {{- else }}
           resources:
             requests:
               cpu: 100m
               memory: 100Mi
+          {{- end }}
           env:
             - name: SYSTEM_NAMESPACE
               valueFrom:
@@ -92,6 +99,10 @@ spec:
                 - ALL
             seccompProfile:
               type: RuntimeDefault
+          {{- with $controller.livenessProbe }}
+          livenessProbe:
+          {{- toYaml . | nindent 6 }}
+          {{- else }}
           livenessProbe:
             httpGet:
               path: /health
@@ -100,6 +111,11 @@ spec:
             initialDelaySeconds: 20
             periodSeconds: 10
             timeoutSeconds: 5
+          {{- end }}
+          {{- with $controller.readinessProbe }}
+          readinessProbe:
+          {{- toYaml . | nindent 6 }}
+          {{- else }}
           readinessProbe:
             httpGet:
               path: /readiness
@@ -108,10 +124,12 @@ spec:
             initialDelaySeconds: 20
             periodSeconds: 10
             timeoutSeconds: 5
+          {{- end }}
           ports:
             - name: metrics
-              containerPort: 9090
+              containerPort: {{ $controller.containerPorts.metrics }}
             - name: profiling
-              containerPort: 8008
+              containerPort: {{ $controller.containerPorts.profiling }}
             - name: probes
-              containerPort: 8080
+              containerPort: {{ $controller.containerPorts.probes }}
+{{- end }}

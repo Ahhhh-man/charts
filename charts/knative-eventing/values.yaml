@@ -2,6 +2,27 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
+## @section Global parameters
+## Global Docker image parameters
+## Please, note that this will override the image parameters, including dependencies, configured to use the global value
+
+## @param global.imageRegistry Global Docker image registry
+## @param global.imagePullSecrets Global Docker registry secret names as an array
+##
+global:
+  imageRegistry: ""
+
+## @section Common parameters
+
+## @param nameOverride String to override knative-eventing full name
+##
+nameOverride: ""
+## @param commonLabels Labels to add to all deployed objects
+##
+commonLabels: {}
+## @param commonAnnotations Annotations to add to all deployed objects
+##
+commonAnnotations: {}
 
 ## @section knative-eventing configmaps
 
@@ -104,3 +125,290 @@ config:
   ##   debug: "false"
   ##   sampling-rate: "0.1"
   tracing:
+
+## @section knative-eventing deployment
+
+## Knative Eventing Controller
+controller:
+  ## @param controller.enabled Enable eventing controller container deployment
+  ##
+  enabled: true
+  ## Knative Eventing Controller image
+  ## @param controller.image.registry Controller image registry
+  ## @param controller.image.repository Controller image repository
+  ## @param controller.image.tag Controller image tag
+  ## @param controller.image.digest Controller image digest
+  ## @param controller.image.pullPolicy Controller image pull policy
+  ## @param controller.image.pullSecrets Controller image pull secrets
+  ##
+  image:
+    registry: gcr.io/knative-releases
+    repository: knative.dev/eventing/cmd/controller
+    tag: ""
+    digest: sha256:ae752dc6c90c34d18728cd2f7a24e3712e3b11a20479a32ac23b5982eedfca45
+    pullPolicy: IfNotPresent
+  ## @param controller.containerPorts.metrics
+  ## @param controller.containerPorts.profiling
+  ## @param controller.containerPorts.probes
+  ##
+  containerPorts:
+    metrics: 9090
+    profiling: 8008
+    probes: 8080
+  ## @param controller.serviceAccount.create Specifies whether a ServiceAccount should be created
+  ## @param controller.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
+  ## @param controller.serviceAccount.annotations Annotations to add to the ServiceAccount Metadata
+  ##
+  serviceAccount:
+    create: true
+    name: eventing-controller
+    annotations: {}
+  ## @param controller.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+  ## e.g:
+  ## resources:
+  ##   requests:
+  ##     cpu: 100m
+  ##     memory: 100Mi
+  ##   limits:
+  ##     cpu: 100m
+  ##     memory: 100Mi
+  ##
+  resources: {}
+  ## Eventing controller containers' liveness probe
+  ## @param controller.livenessProbe Set the liveness probe for the controller container
+  ## e.g:
+  ## livenessProbe:
+  ##   httpGet:
+  ##     path: /health
+  ##     port: probes
+  ##     scheme: HTTP
+  ##   initialDelaySeconds: 20
+  ##   periodSeconds: 10
+  ##   timeoutSeconds: 5
+  ##
+  livenessProbe: {}
+  ## Eventing controller containers' readiness probe
+  ## @param controller.readinessProbe Set the readiness probe for the controller container
+  ## e.g:
+  ## readinessProbe:
+  ##   httpGet:
+  ##     path: /readiness
+  ##     port: probes
+  ##     scheme: HTTP
+  ##   initialDelaySeconds: 20
+  ##   periodSeconds: 10
+  ##   timeoutSeconds: 5
+  ##
+  readinessProbe: {}
+  ## @param controller.enableServiceLinks Whether information about services should be injected into pod's environment variable
+  ## The environment variables injected by service links are not used, but can lead to slow boot times or slow running of the scripts when there are many services in the current namespace.
+  ## If you experience slow pod startups or slow running of the scripts you probably want to set this to `false`.
+  ##
+  enableServiceLinks: false
+
+## Knative Eventing Job Sink
+jobsink:
+  ## @param jobsink.enabled Enable eventing Job Sink container deployment
+  ##
+  enabled: true
+  ## Knative Eventing Job Sink image
+  ## @param jobsink.image.registry Job Sink image registry
+  ## @param jobsink.image.repository Job Sink image repository
+  ## @param jobsink.image.tag Job Sink image tag
+  ## @param jobsink.image.digest Job Sink image digest
+  ## @param jobsink.image.pullPolicy Job Sink image pull policy
+  ## @param jobsink.image.pullSecrets Job Sink image pull secrets
+  ##
+  image:
+    registry: gcr.io
+    repository: knative-releases/knative.dev/eventing/cmd/jobsink
+    tag: ""
+    digest: sha256:83abe9703e34487a9b53f0fcf08975c08c0a502d60f7fc35f8440c4705045f36
+    pullPolicy: IfNotPresent
+  ## @param jobsink.containerPorts.http
+  ## @param jobsink.containerPorts.https
+  ## @param jobsink.containerPorts.metrics
+  ##
+  containerPorts:
+    http: 8080
+    https: 8443
+    metrics: 9092
+  ## @param jobsink.serviceAccount.create Specifies whether a ServiceAccount should be created
+  ## @param jobsink.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
+  ## @param jobsink.serviceAccount.annotations Annotations to add to the ServiceAccount Metadata
+  ##
+  serviceAccount:
+    create: true
+    name: job-sink
+    annotations: {}
+  ## @param jobsink.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+  ## e.g:
+  ##  resources:
+  ##   requests:
+  ##     cpu: 125m
+  ##     memory: 64Mi
+  ##   limits:
+  ##      cpu: 1000m
+  ##      memory: 2048Mi
+  ##
+  resources: {}
+  ## Eventing Job Sink containers' liveness probe
+  ## @param jobsink.livenessProbe Set the liveness probe for the Job Sink container
+  ## e.g:
+  ## livenessProbe:
+  ##   httpGet:
+  ##     path: /health
+  ##     port: probes
+  ##     scheme: HTTP
+  ##   initialDelaySeconds: 20
+  ##   periodSeconds: 10
+  ##   timeoutSeconds: 5
+  ##
+  livenessProbe: {}
+  ## Eventing jobsink containers' readiness probe
+  ## @param jobsink.readinessProbe Set the readiness probe for the Job Sink container
+  ## e.g:
+  ## readinessProbe:
+  ##   httpGet:
+  ##     path: /readiness
+  ##     port: probes
+  ##     scheme: HTTP
+  ##   initialDelaySeconds: 20
+  ##   periodSeconds: 10
+  ##   timeoutSeconds: 5
+  ##
+  readinessProbe: {}
+  ## @param jobsink.enableServiceLinks Whether information about services should be injected into pod's environment variable
+  ## The environment variables injected by service links are not used, but can lead to slow boot times or slow running of the scripts when there are many services in the current namespace.
+  ## If you experience slow pod startups or slow running of the scripts you probably want to set this to `false`.
+  ##
+  enableServiceLinks: false
+
+## Knative Eventing Ping Source MT Adapter
+mtping:
+  ## @param mtping.enabled Enable Ping Source MT Adapter container deployment
+  ##
+  enabled: true
+  ## Knative Eventing Ping Source MT Adapter image
+  ## @param mtping.imagse.registry Ping Source MT Adapter image registry
+  ## @param mtping.image.repository Ping Source MT Adapter image repository
+  ## @param mtping.image.tag Ping Source MT Adapter image tag
+  ## @param mtping.image.digest Ping Source MT Adapter image digest
+  ## @param mtping.image.pullPolicy Ping Source MT Adapter image pull policy
+  ## @param mtping.image.pullSecrets Ping Source MT Adapter image pull secrets
+  ##
+  image:
+    registry: gcr.io
+    repository: knative-releases/knative.dev/eventing/cmd/mtping
+    tag: ""
+    digest: sha256:7b05df78d0530813ef41495ba364ba1ef10b7086cc057dabfc68096006da2d6e
+    pullPolicy: IfNotPresent
+  ## @param mtping.containerPorts.metrics
+  ##
+  containerPorts:
+    metrics: 9090
+  ## @param mtping.serviceAccount.create Specifies whether a ServiceAccount should be created
+  ## @param mtping.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
+  ## @param mtping.serviceAccount.annotations Annotations to add to the ServiceAccount Metadata
+  ##
+  serviceAccount:
+    create: true
+    name: pingsource-mt-adapter
+    annotations: {}
+  ## @param mtping.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+  ## e.g:
+  ##  resources:
+  ##   requests:
+  ##     cpu: 125m
+  ##     memory: 64Mi
+  ##   limits:
+  ##      cpu: 1000m
+  ##      memory: 2048Mi
+  ##
+  resources: {}
+  ## @param mtping.enableServiceLinks Whether information about services should be injected into pod's environment variable
+  ## The environment variables injected by service links are not used, but can lead to slow boot times or slow running of the scripts when there are many services in the current namespace.
+  ## If you experience slow pod startups or slow running of the scripts you probably want to set this to `false`.
+  ##
+  enableServiceLinks: false
+
+## Knative Eventing Webhook
+webhook:
+  ## @param webhook.enabled Enable eventing webhook container deployment
+  ##
+  enabled: true
+  ## Knative Eventing Webhook image
+  ## @param webhook.image.registry Eventing Webhook image registry
+  ## @param webhook.image.repository Eventing Webhook image repository
+  ## @param webhook.image.tag Eventing Webhook image tag
+  ## @param webhook.image.digest Eventing Webhook image digest
+  ## @param webhook.image.pullPolicy Eventing Webhook image pull policy
+  ## @param webhook.image.pullSecrets Eventing Webhook image pull secrets
+  ##
+  image:
+    registry: gcr.io
+    repository: knative-releases/knative.dev/eventing/cmd/webhook
+    tag: ""
+    digest: sha256:3f00c566b5a8cb79fff96dfe3c4aa24427c3e2f83665730a4a263b5028d9b802
+    pullPolicy: IfNotPresent
+  ## @param webhook.containerPorts.https
+  ## @param webhook.containerPorts.metrics
+  ## @param webhook.containerPorts.profiling
+  ##
+  containerPorts:
+    https: 8443
+    metrics: 9090
+    profiling: 8008
+  ## @param webhook.serviceAccount.create Specifies whether a ServiceAccount should be created
+  ## @param webhook.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
+  ## @param webhook.serviceAccount.annotations Annotations to add to the ServiceAccount Metadata
+  ##
+  serviceAccount:
+    create: true
+    name: eventing-webhook
+    annotations: {}
+  ## @param webhook.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+  ## e.g:
+  ##  resources:
+  ##   requests:
+  ##     cpu: 125m
+  ##     memory: 64Mi
+  ##   limits:
+  ##      cpu: 1000m
+  ##      memory: 2048Mi
+  ##
+  resources: {}
+  ## Eventing Webhook containers' liveness probe
+  ## @param webhook.livenessProbe Set the liveness probe for the Webhook container
+  ## e.g:
+  ## livenessProbe:
+  ##   httpGet:
+  ##     path: /health
+  ##     port: probes
+  ##     scheme: HTTP
+  ##   initialDelaySeconds: 20
+  ##   periodSeconds: 10
+  ##   timeoutSeconds: 5
+  ##
+  livenessProbe: {}
+  ## Eventing Webhook containers' readiness probe
+  ## @param webhook.readinessProbe Set the readiness probe for the Webhook container
+  ## e.g:
+  ## readinessProbe:
+  ##   httpGet:
+  ##     path: /readiness
+  ##     port: probes
+  ##     scheme: HTTP
+  ##   initialDelaySeconds: 20
+  ##   periodSeconds: 10
+  ##   timeoutSeconds: 5
+  ##
+  readinessProbe: {}
+  ## @param webhook.enableServiceLinks Whether information about services should be injected into pod's environment variable
+  ## The environment variables injected by service links are not used, but can lead to slow boot times or slow running of the scripts when there are many services in the current namespace.
+  ## If you experience slow pod startups or slow running of the scripts you probably want to set this to `false`.
+  ##
+  enableServiceLinks: false
+  ## @param webhook.terminationGracePeriodSeconds The period of time in seconds after the webhook container receives a termination signal before the container should be terminated
+  ##
+  terminationGracePeriodSeconds: 300

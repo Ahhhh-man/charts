@@ -16,11 +16,13 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: config-sugar
-  namespace: "{{ .Release.Namespace }}"
+  namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    knative.dev/config-propagation: original
+    knative.dev/config-category: eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
   annotations:
+    {{- include "knative-eventing.annotations" . | nindent 4 }}
     knative.dev/example-checksum: "62dfac6f"
 data:
 {{- range $key, $value := .Values.config.sugar }}
