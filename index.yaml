@@ -6,6 +6,29 @@ entries:
       artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 1.16.2
+    created: "2025-01-07T21:28:44.647073275Z"
+    description: 'Event-driven application platform for Kubernetes '
+    digest: 9f42c8a666a3ebca07e178bbc5c0b86e66861fd53b5aa66167b137f38ea7d9c8
+    home: https://github.com/Ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - eventing
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/Ahhhh-man
+    name: knative-eventing
+    sources:
+    - https://github.com/Ahhhh-man/charts/tree/main/charts/knative-eventing
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/knative-eventing-0.2.3/knative-eventing-0.2.3.tgz
+    version: 0.2.3
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: 1.16.2
     created: "2025-01-05T19:18:43.077425445Z"
     description: 'Event-driven application platform for Kubernetes '
     digest: 2b17a3855fdbae3bfc1d7f8da986b55ca4b1ce71e9d0097dee10b5c885c541aa
@@ -467,4 +490,4 @@ entries:
     urls:
     - https://github.com/Ahhhh-man/charts/releases/download/net-kourier-0.1.1/net-kourier-0.1.1.tgz
     version: 0.1.1
-generated: "2025-01-05T19:18:43.512683853Z"
+generated: "2025-01-07T21:28:45.041017934Z"
