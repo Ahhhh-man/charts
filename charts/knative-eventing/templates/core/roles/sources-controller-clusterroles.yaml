@@ -17,8 +17,7 @@ kind: ClusterRole
 metadata:
   name: knative-eventing-sources-controller
   labels:
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""

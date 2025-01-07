@@ -17,8 +17,7 @@ kind: ClusterRole
 metadata:
   name: eventing-broker-filter
   labels:
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""
@@ -43,8 +42,7 @@ kind: ClusterRole
 metadata:
   name: eventing-broker-ingress
   labels:
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""
@@ -60,8 +58,7 @@ kind: ClusterRole
 metadata:
   name: eventing-config-reader
   labels:
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""

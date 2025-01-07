@@ -12,16 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+{{- $webhook := .Values.webhook }}
+{{- if $webhook.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: eventing-webhook
-  namespace: "{{ .Release.Namespace }}"
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/component: eventing-webhook
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
     bindings.knative.dev/exclude: "true"
+  annotations:
+    {{- include "knative-eventing.annotations" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
@@ -33,10 +36,8 @@ spec:
         app: eventing-webhook
         role: eventing-webhook
         app.kubernetes.io/component: eventing-webhook
-        app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-        app.kubernetes.io/name: knative-eventing
+        {{- include "knative-eventing.labels" . | nindent 8 }}
     spec:
-      # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -46,23 +47,25 @@ spec:
                     app: eventing-webhook
                 topologyKey: kubernetes.io/hostname
               weight: 100
-      serviceAccountName: eventing-webhook
-      enableServiceLinks: false
+      serviceAccountName: {{ $webhook.serviceAccount.name }}
+      enableServiceLinks: {{ $webhook.enableServiceLinks }}
       containers:
         - name: eventing-webhook
           terminationMessagePolicy: FallbackToLogsOnError
-          # This is the Go import path for the binary that is containerized
-          # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/eventing/cmd/webhook@sha256:3f00c566b5a8cb79fff96dfe3c4aa24427c3e2f83665730a4a263b5028d9b802
+          image: {{ template "knative-eventing.webhook.image" . }}
+          imagePullPolicy: {{ $webhook.image.pullPolicy }}
+          {{- with $webhook.resources }}
+          resources:
+          {{- toYaml . | nindent 6 }}
+          {{- else }}
           resources:
             requests:
-              # taken from serving.
               cpu: 100m
               memory: 50Mi
             limits:
-              # taken from serving.
               cpu: 200m
               memory: 200Mi
+          {{- end }}
           env:
             - name: SYSTEM_NAMESPACE
               valueFrom:
@@ -75,7 +78,7 @@ spec:
             - name: WEBHOOK_NAME
               value: eventing-webhook
             - name: WEBHOOK_PORT
-              value: "8443"
+              value: {{ $webhook.containerPorts.https | quote }}
               # SINK_BINDING_SELECTION_MODE specifies the NamespaceSelector and ObjectSelector
               # for the sinkbinding webhook.
               # If `inclusion` is selected, namespaces/objects labelled as `bindings.knative.dev/include:true`
@@ -100,47 +103,58 @@ spec:
               type: RuntimeDefault
           ports:
             - name: https-webhook
-              containerPort: 8443
+              containerPort: {{ $webhook.containerPorts.https }}
             - name: metrics
-              containerPort: 9090
+              containerPort: {{ $webhook.containerPorts.metrics }}
             - name: profiling
-              containerPort: 8008
+              containerPort: {{ $webhook.containerPorts.profiling }}
+          {{- with $webhook.readinessProbe }}
+          readinessProbe:
+          {{- toYaml . | nindent 6 }}
+          {{- else }}
           readinessProbe:
             periodSeconds: 1
             httpGet:
               scheme: HTTPS
-              port: 8443
+              port: https-webhook
               httpHeaders:
                 - name: k-kubelet-probe
                   value: "webhook"
+          {{- end }}
+          {{- with $webhook.livenessProbe }}
+          livenessProbe:
+          {{- toYaml . | nindent 6 }}
+          {{- else }}
           livenessProbe:
             periodSeconds: 1
             httpGet:
               scheme: HTTPS
-              port: 8443
+              port: https-webhook
               httpHeaders:
                 - name: k-kubelet-probe
                   value: "webhook"
             initialDelaySeconds: 120
+          {{- end }}
       # Our webhook should gracefully terminate by lame ducking first, set this to a sufficiently
       # high value that we respect whatever value it has configured for the lame duck grace period.
-      terminationGracePeriodSeconds: 300
+      terminationGracePeriodSeconds: {{ $webhook.terminationGracePeriodSeconds }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  name: eventing-webhook
+  namespace: {{ .Release.Namespace }}
   labels:
     role: eventing-webhook
     app.kubernetes.io/component: eventing-webhook
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
-  name: eventing-webhook
-  namespace: "{{ .Release.Namespace }}"
+    {{- include "knative-eventing.labels" . | nindent 4 }}
+  annotations:
+    {{- include "knative-eventing.annotations" . | nindent 4 }}
 spec:
   ports:
     - name: https-webhook
       port: 443
-      targetPort: 8443
+      targetPort: {{ $webhook.containerPorts.https }}
   selector:
     role: eventing-webhook
-
+{{- end }}

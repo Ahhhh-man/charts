@@ -17,14 +17,13 @@ kind: MutatingWebhookConfiguration
 metadata:
   name: webhook.eventing.knative.dev
   labels:
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
 webhooks:
   - admissionReviewVersions: ["v1", "v1beta1"]
     clientConfig:
       service:
         name: eventing-webhook
-        namespace: "{{ .Release.Namespace }}"
+        namespace: {{ .Release.Namespace }}
     sideEffects: None
     failurePolicy: Fail
     name: webhook.eventing.knative.dev

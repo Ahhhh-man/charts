@@ -12,15 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+{{- $jobsink := .Values.jobsink }}
+{{- if $jobsink.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: job-sink
-  namespace: "{{ .Release.Namespace }}"
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/component: job-sink
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
+  annotations:
+    {{- include "knative-eventing.annotations" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
@@ -31,8 +34,7 @@ spec:
       labels:
         sinks.knative.dev/sink: job-sink
         app.kubernetes.io/component: job-sink
-        app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-        app.kubernetes.io/name: knative-eventing
+        {{- include "knative-eventing.labels" . | nindent 8 }}
     spec:
       affinity:
         podAntiAffinity:
@@ -43,11 +45,12 @@ spec:
                     sinks.knative.dev/sink: job-sink
                 topologyKey: kubernetes.io/hostname
               weight: 100
-      enableServiceLinks: false
+      enableServiceLinks: {{ $jobsink.enableServiceLinks }}
       containers:
         - name: job-sink
           terminationMessagePolicy: FallbackToLogsOnError
-          image: gcr.io/knative-releases/knative.dev/eventing/cmd/jobsink@sha256:83abe9703e34487a9b53f0fcf08975c08c0a502d60f7fc35f8440c4705045f36
+          image: {{ template "knative-eventing.jobsink.image" . }}
+          imagePullPolicy: {{ $jobsink.image.pullPolicy }}
           env:
             - name: SYSTEM_NAMESPACE
               valueFrom:
@@ -72,39 +75,53 @@ spec:
             - name: METRICS_DOMAIN
               value: knative.dev/internal/eventing
             - name: INGRESS_PORT
-              value: "8080"
+              value: {{ $jobsink.containerPorts.http | quote }}
             - name: INGRESS_PORT_HTTPS
-              value: "8443"
+              value: {{ $jobsink.containerPorts.https | quote }}
+          {{- with $jobsink.readinessProbe }}
+          readinessProbe:
+          {{- toYaml . | nindent 6 }}
+          {{- else }}
           readinessProbe:
             failureThreshold: 3
             httpGet:
               path: /healthz
-              port: 8080
+              port: http
               scheme: HTTP
             periodSeconds: 2
             successThreshold: 1
             timeoutSeconds: 1
+          {{- end }}
+          {{- with $jobsink.livenessProbe }}
+          livenessProbe:
+          {{- toYaml . | nindent 6 }}
+          {{- else }}
           livenessProbe:
             failureThreshold: 3
             httpGet:
               path: /healthz
-              port: 8080
+              port: http
               scheme: HTTP
             periodSeconds: 2
             successThreshold: 1
             timeoutSeconds: 1
             initialDelaySeconds: 5
+          {{- end }}
           ports:
-            - containerPort: 8080
-              name: http
+            - name: http
+              containerPort: {{ $jobsink.containerPorts.http }}
               protocol: TCP
-            - containerPort: 8443
-              name: https
+            - name: https
+              containerPort: {{ $jobsink.containerPorts.https }}
               protocol: TCP
-            - containerPort: 9092
-              name: metrics
+            - name: metrics
+              containerPort: {{ $jobsink.containerPorts.metrics }}
               protocol: TCP
           terminationMessagePath: /dev/termination-log
+          {{- with $jobsink.resources }}
+          resources:
+          {{- toYaml . | nindent 10 }}
+          {{- else }}
           resources:
             requests:
               cpu: 125m
@@ -112,6 +129,7 @@ spec:
             limits:
               cpu: 1000m
               memory: 2048Mi
+          {{- end }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -121,31 +139,33 @@ spec:
                 - ALL
             seccompProfile:
               type: RuntimeDefault
-      serviceAccountName: job-sink
+      serviceAccountName: {{ $jobsink.serviceAccount.name }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  name: job-sink
+  namespace: {{ .Release.Namespace }}
   labels:
     sinks.knative.dev/sink: job-sink
     app.kubernetes.io/component: job-sink
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
-  name: job-sink
-  namespace: "{{ .Release.Namespace }}"
+    {{- include "knative-eventing.labels" . | nindent 4 }}
+  annotations:
+    {{- include "knative-eventing.annotations" . | nindent 4 }}
 spec:
   ports:
     - name: http
       port: 80
       protocol: TCP
-      targetPort: 8080
+      targetPort: {{ $jobsink.containerPorts.http }}
     - name: https
       port: 443
       protocol: TCP
-      targetPort: 8443
+      targetPort: {{ $jobsink.containerPorts.https }}
     - name: http-metrics
       port: 9092
       protocol: TCP
-      targetPort: 9092
+      targetPort: {{ $jobsink.containerPorts.metrics }}
   selector:
     sinks.knative.dev/sink: job-sink
+{{- end }}

@@ -12,15 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+{{- $webhook := .Values.webhook }}
+{{- if $webhook.enabled }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: eventing-webhook
-  namespace: "{{ .Release.Namespace }}"
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/component: eventing-webhook
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
+  annotations:
+    {{- include "knative-eventing.annotations" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -36,19 +39,19 @@ spec:
           type: Utilization
           averageUtilization: 100
 ---
-# Webhook PDB.
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: eventing-webhook
-  namespace: "{{ .Release.Namespace }}"
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/component: eventing-webhook
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
+  annotations:
+    {{- include "knative-eventing.annotations" . | nindent 4 }}
 spec:
   minAvailable: 80%
   selector:
     matchLabels:
       app: eventing-webhook
-
+{{- end }}
