@@ -32,8 +32,7 @@ metadata:
   name: service-addressable-resolver
   labels:
     duck.knative.dev/addressable: "true"
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
 # Do not use this role directly. These rules will be added to the "addressable-resolver" role.
 rules:
   - apiGroups:
@@ -51,8 +50,7 @@ metadata:
   name: serving-addressable-resolver
   labels:
     duck.knative.dev/addressable: "true"
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
 # Do not use this role directly. These rules will be added to the "addressable-resolver" role.
 rules:
   - apiGroups:
@@ -73,8 +71,7 @@ metadata:
   name: channel-addressable-resolver
   labels:
     duck.knative.dev/addressable: "true"
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
 # Do not use this role directly. These rules will be added to the "addressable-resolver" role.
 rules:
   - apiGroups:
@@ -99,8 +96,7 @@ metadata:
   name: broker-addressable-resolver
   labels:
     duck.knative.dev/addressable: "true"
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
 # Do not use this role directly. These rules will be added to the "addressable-resolver" role.
 rules:
   - apiGroups:
@@ -119,8 +115,7 @@ metadata:
   name: flows-addressable-resolver
   labels:
     duck.knative.dev/addressable: "true"
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
 # Do not use this role directly. These rules will be added to the "addressable-resolver" role.
 rules:
   - apiGroups:
@@ -141,8 +136,7 @@ metadata:
   name: jobsinks-addressable-resolver
   labels:
     duck.knative.dev/addressable: "true"
-    app.kubernetes.io/version: {{ include "knative-eventing.version" . }}
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
 # Do not use this role directly. These rules will be added to the "addressable-resolver" role.
 rules:
   - apiGroups:
@@ -154,4 +148,3 @@ rules:
       - get
       - list
       - watch
-
