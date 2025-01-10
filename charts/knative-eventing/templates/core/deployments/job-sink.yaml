@@ -75,9 +75,9 @@ spec:
             - name: METRICS_DOMAIN
               value: knative.dev/internal/eventing
             - name: INGRESS_PORT
-              value: {{ $jobsink.containerPorts.http | quote }}
+              value: {{ quote $jobsink.containerPorts.http }}
             - name: INGRESS_PORT_HTTPS
-              value: {{ $jobsink.containerPorts.https | quote }}
+              value: {{ quote $jobsink.containerPorts.https }}
           {{- with $jobsink.readinessProbe }}
           readinessProbe:
           {{- toYaml . | nindent 6 }}

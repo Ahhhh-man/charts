@@ -11,14 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+{{- if .Values.crds.install }}
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   name: parallels.flows.knative.dev
   labels:
     duck.knative.dev/addressable: "true"
-    app.kubernetes.io/version: "1.16.2"
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
 spec:
   group: flows.knative.dev
   versions:
@@ -522,4 +523,4 @@ spec:
       - knative
       - flows
   scope: Namespaced
-
+{{- end }}
