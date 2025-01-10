@@ -78,7 +78,7 @@ spec:
             - name: WEBHOOK_NAME
               value: eventing-webhook
             - name: WEBHOOK_PORT
-              value: {{ $webhook.containerPorts.https | quote }}
+              value: {{ quote $webhook.containerPorts.https }}
               # SINK_BINDING_SELECTION_MODE specifies the NamespaceSelector and ObjectSelector
               # for the sinkbinding webhook.
               # If `inclusion` is selected, namespaces/objects labelled as `bindings.knative.dev/include:true`

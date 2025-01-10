@@ -12,52 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+{{- if .Values.crds.install }}
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: triggers.eventing.knative.dev
+  name: subscriptions.messaging.knative.dev
   labels:
-    app.kubernetes.io/version: "1.16.2"
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
 spec:
-  group: eventing.knative.dev
+  group: messaging.knative.dev
   versions:
     - name: v1
       served: true
       storage: true
       subresources:
         status: {}
-      additionalPrinterColumns:
-        - name: Broker
-          type: string
-          jsonPath: .spec.broker
-        - name: Subscriber_URI
-          type: string
-          jsonPath: .status.subscriberUri
-        - name: Age
-          type: date
-          jsonPath: .metadata.creationTimestamp
-        - name: Ready
-          type: string
-          jsonPath: ".status.conditions[?(@.type==\"Ready\")].status"
-        - name: Reason
-          type: string
-          jsonPath: ".status.conditions[?(@.type==\"Ready\")].reason"
       schema:
         openAPIV3Schema:
-          description: 'Trigger represents a request to have events delivered to a subscriber from a Broker''s event pool.'
+          description: 'Subscription routes events received on a Channel to a DNS name and corresponds to the subscriptions.channels.knative.dev CRD.'
           type: object
           properties:
             spec:
-              description: Spec defines the desired state of the Trigger.
               type: object
-              x-kubernetes-preserve-unknown-fields: true
               properties:
-                broker:
-                  description: Broker is the broker that this trigger receives events from.
-                  type: string
-                brokerRef:
-                  description: 'Reference to a broker that is enabled for cross-namespace referencing. You can specify only the following fields of the KReference: kind, apiVersion, name and namespace.'
+                channel:
+                  description: 'Reference to a channel that will be used to create the subscription. You can specify only the following fields of the KReference: kind, apiVersion, name and namespace. The resource pointed by this KReference must meet the contract to the ChannelableSpec duck type. If the resource does not meet this contract it will be reflected in the Subscription''s status.  This field is immutable. We have no good answer on what happens to the events that are currently in the channel being consumed from and what the semantics there should be. For now, you can always delete the Subscription and recreate it to point to a different channel, giving the user more control over what semantics should be used (drain the channel first, possibly have events dropped, etc.)'
                   type: object
                   properties:
                     apiVersion:
@@ -70,12 +49,12 @@ spec:
                       description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                       type: string
                     namespace:
-                      description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                      description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/ This is optional field, it gets defaulted to the object holding it if left out.'
                       type: string
+                  x-kubernetes-preserve-unknown-fields: true # This is necessary to enable the experimental feature
                 delivery:
-                  description: Delivery contains the delivery spec for this specific trigger.
+                  description: Delivery configuration
                   type: object
-                  x-kubernetes-preserve-unknown-fields: true # This is necessary to enable the experimental feature delivery-timeout
                   properties:
                     backoffDelay:
                       description: 'BackoffDelay is the delay before retrying. More information on Duration format: - https://www.iso.org/iso-8601-date-and-time-format.html - https://en.wikipedia.org/wiki/ISO_8601  For linear policy, backoff delay is backoffDelay*<numberOfRetries>. For exponential policy, backoff delay is backoffDelay*2^<numberOfRetries>.'
@@ -116,56 +95,9 @@ spec:
                       description: Retry is the minimum number of retries the sender should attempt when sending an event before moving it to the dead letter sink.
                       type: integer
                       format: int32
-                    format:
-                      description: Format is the format used to serialize the event into a http request when delivering the event. It can be json (for structured events), binary (for binary events), or unset.
-                      type: string
-                filter:
-                  description: 'Filter is the filter to apply against all events from the Broker. Only events that pass this filter will be sent to the Subscriber. If not specified, will default to allowing all events.'
-                  type: object
-                  properties:
-                    attributes:
-                      description: 'Attributes filters events by exact match on event context attributes. Each key in the map is compared with the equivalent key in the event context. An event passes the filter if all values are equal to the specified values.  Nested context attributes are not supported as keys. Only string values are supported.'
-                      type: object
-                      x-kubernetes-preserve-unknown-fields: true
-                filters:
-                  description: 'Filters is an array of SubscriptionsAPIFilter that evaluate to true or false. If any filter expression in the array evaluates to false, the event must not be sent to the Subscriber. If all the filter expressions in the array evaluate to true, the event must be attempted to be delivered. Absence of a filter or empty array implies a value of true. In the event of users specifying both Filter and Filters, then the latter will override the former. This will allow users to try out the effect of the new Filters field without compromising the existing attribute-based Filter and try it out on existing Trigger objects.'
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      all:
-                        description: 'All evaluates to true if all the nested expressions evaluate to true. It must contain at least one filter expression.'
-                        type: array
-                        items:
-                          type: object
-                          x-kubernetes-preserve-unknown-fields: true
-                      any:
-                        description: 'Any evaluates to true if at least one of the nested expressions evaluates to true. It must contain at least one filter expression.'
-                        type: array
-                        items:
-                          type: object
-                          x-kubernetes-preserve-unknown-fields: true
-                      cesql:
-                        description: 'CESQL is a CloudEvents SQL expression that will be evaluated to true or false against each CloudEvent.'
-                        type: string
-                      exact:
-                        description: 'Exact evaluates to true if the values of the matching CloudEvents attributes all exactly match with the associated value String specified (case-sensitive). The keys are the names of the CloudEvents attributes to be matched, and their values are the String values to use in the comparison. The attribute name and value specified in the filter express must not be empty strings.'
-                        type: object
-                        x-kubernetes-preserve-unknown-fields: true
-                      not:
-                        description: 'Not evaluates to true if the nested expression evaluates to false.'
-                        type: object
-                        x-kubernetes-preserve-unknown-fields: true
-                      prefix:
-                        description: 'Prefix evaluates to true if the values of the matching CloudEvents attributes all start with the associated value String specified (case sensitive). The keys are the names of the CloudEvents attributes to be matched, and their values are the String values to use in the comparison. The attribute name and value specified in the filter express must not be empty strings.'
-                        type: object
-                        x-kubernetes-preserve-unknown-fields: true
-                      suffix:
-                        description: 'Suffix evaluates to true if the values of the matching CloudEvents attributes all end with the associated value String specified (case sensitive). The keys are the names of the CloudEvents attributes to be matched, and their values are the String values to use in the comparison. The attribute name and value specified in the filter express must not be empty strings.'
-                        type: object
-                        x-kubernetes-preserve-unknown-fields: true
-                subscriber:
-                  description: Subscriber is the addressable that receives events from the Broker that pass the Filter. It is required.
+                  x-kubernetes-preserve-unknown-fields: true # This is necessary to enable the experimental feature delivery-timeout
+                reply:
+                  description: Reply specifies (optionally) how to handle events returned from the Subscriber target.
                   type: object
                   properties:
                     ref:
@@ -193,8 +125,37 @@ spec:
                     audience:
                       description: Audience is the OIDC audience. This only needs to be set if the target is not an Addressable and thus the Audience can't be received from the target itself. If specified, it takes precedence over the target's Audience.
                       type: string
+                subscriber:
+                  description: Subscriber is reference to (optional) function for processing events. Events from the Channel will be delivered here and replies are sent to a Destination as specified by the Reply.
+                  type: object
+                  properties:
+                    ref:
+                      description: Ref points to an Addressable.
+                      type: object
+                      properties:
+                        apiVersion:
+                          description: API version of the referent.
+                          type: string
+                        kind:
+                          description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                          type: string
+                        name:
+                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                          type: string
+                        namespace:
+                          description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/ This is optional field, it gets defaulted to the object holding it if left out.'
+                          type: string
+                      x-kubernetes-preserve-unknown-fields: true # This is necessary to enable the experimental feature
+                    uri:
+                      description: URI can be an absolute URL(non-empty scheme and non-empty host) pointing to the target or a relative URI. Relative URIs will be resolved using the base URI retrieved from Ref.
+                      type: string
+                    CACerts:
+                      description: Certification Authority (CA) certificates in PEM format that the subscription trusts when sending events to the sink.
+                      type: string
+                    audience:
+                      description: Audience is the OIDC audience. This only needs to be set if the target is not an Addressable and thus the Audience can't be received from the target itself. If specified, it takes precedence over the target's Audience.
+                      type: string
             status:
-              description: Status represents the current state of the Trigger. This data may be out of date.
               type: object
               properties:
                 annotations:
@@ -223,52 +184,77 @@ spec:
                       - status
                     properties:
                       lastTransitionTime:
-                        description: 'LastTransitionTime is the last time the condition transitioned from one status to another. We use VolatileTime in place of metav1.Time to exclude this from creating equality.Semantic differences (all other things held constant).'
+                        description: LastTransitionTime is the last time the condition transitioned from one status to another. We use VolatileTime in place of metav1.Time to exclude this from creating equality.Semantic differences (all other things held constant).
                         type: string
                       message:
-                        description: 'A human readable message indicating details about the transition.'
+                        description: A human readable message indicating details about the transition.
                         type: string
                       reason:
-                        description: 'The reason for the condition''s last transition.'
+                        description: The reason for the condition's last transition.
                         type: string
                       severity:
-                        description: 'Severity with which to treat failures of this type of condition. When this is not specified, it defaults to Error.'
+                        description: Severity with which to treat failures of this type of condition. When this is not specified, it defaults to Error.
                         type: string
                       status:
-                        description: 'Status of the condition, one of True, False, Unknown.'
+                        description: Status of the condition, one of True, False, Unknown.
                         type: string
                       type:
-                        description: 'Type of condition.'
+                        description: Type of condition.
                         type: string
-                deadLetterSinkUri:
-                  description: DeadLetterSinkURI is the resolved URI of the dead letter sink for this Trigger, in case there is none this will fallback to it's Broker status DeadLetterSinkURI.
-                  type: string
-                deadLetterSinkCACerts:
-                  description: Certification Authority (CA) certificates in PEM format according to https://www.rfc-editor.org/rfc/rfc7468.
-                  type: string
-                deadLetterSinkAudience:
-                  description: OIDC audience of the dead letter sink.
-                  type: string
                 observedGeneration:
                   description: ObservedGeneration is the 'Generation' of the Service that was last processed by the controller.
                   type: integer
                   format: int64
-                subscriberUri:
-                  description: SubscriberURI is the resolved URI of the receiver for this Trigger.
-                  type: string
-                subscriberCACerts:
-                  description: Certification Authority (CA) certificates in PEM format according to https://www.rfc-editor.org/rfc/rfc7468.
-                  type: string
-                subscriberAudience:
-                  description: OIDC audience of the subscriber.
-                  type: string
+                physicalSubscription:
+                  description: PhysicalSubscription is the fully resolved values that this Subscription represents.
+                  type: object
+                  properties:
+                    deadLetterSinkUri:
+                      description: ReplyURI is the fully resolved URI for the spec.delivery.deadLetterSink.
+                      type: string
+                    deadLetterSinkCACerts:
+                      description: Certification Authority (CA) certificates in PEM format according to https://www.rfc-editor.org/rfc/rfc7468.
+                      type: string
+                    deadLetterSinkAudience:
+                      description: OIDC audience of the dead letter sink.
+                      type: string
+                    replyUri:
+                      description: ReplyURI is the fully resolved URI for the spec.reply.
+                      type: string
+                    replyCACerts:
+                      description: Certification Authority (CA) certificates in PEM format according to https://www.rfc-editor.org/rfc/rfc7468.
+                      type: string
+                    replyAudience:
+                      description: ReplyAudience is the OIDC audience for the replyUri.
+                      type: string
+                    subscriberUri:
+                      description: SubscriberURI is the fully resolved URI for spec.subscriber.
+                      type: string
+                    subscriberCACerts:
+                      description: Certification Authority (CA) certificates in PEM format according to https://www.rfc-editor.org/rfc/rfc7468.
+                      type: string
+                    subscriberAudience:
+                      description: SubscriberAudience is the OIDC audience for the subscriberUri.
+                      type: string
+      additionalPrinterColumns:
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+        - name: Ready
+          type: string
+          jsonPath: ".status.conditions[?(@.type==\"Ready\")].status"
+        - name: Reason
+          type: string
+          jsonPath: ".status.conditions[?(@.type==\"Ready\")].reason"
   names:
-    kind: Trigger
-    plural: triggers
-    singular: trigger
+    kind: Subscription
+    plural: subscriptions
+    singular: subscription
     categories:
       - all
       - knative
-      - eventing
+      - messaging
+    shortNames:
+      - sub
   scope: Namespaced
-
+{{- end }}

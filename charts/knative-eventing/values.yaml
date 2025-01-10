@@ -24,6 +24,12 @@ commonLabels: {}
 ##
 commonAnnotations: {}
 
+## @section knative-eventing crds
+crds:
+  ## @param crds.install Install CRDs
+  ##
+  install: true
+
 ## @section knative-eventing configmaps
 
 ## Knative Eventing ConfigMaps
@@ -142,11 +148,22 @@ controller:
   ## @param controller.image.pullSecrets Controller image pull secrets
   ##
   image:
-    registry: gcr.io/knative-releases
-    repository: knative.dev/eventing/cmd/controller
+    registry: gcr.io
+    repository: knative-releases/knative.dev/eventing/cmd/controller
     tag: ""
-    digest: sha256:ae752dc6c90c34d18728cd2f7a24e3712e3b11a20479a32ac23b5982eedfca45
+    digest: sha256:59df8234b78293ba2bed205412b7954d89e9f984bbbc06304db80cfae17732ad
     pullPolicy: IfNotPresent
+  ## @param controller.apiserverReceiveAdapter.image APIServerReceiveAdapter image
+  ## @param controller.apiserverReceiveAdapter.image.registry APIServerReceiveAdapter image registry
+  ## @param controller.apiserverReceiveAdapter.image.repository APIServerReceiveAdapter image repository
+  ## @param controller.apiserverReceiveAdapter.image.tag APIServerReceiveAdapter image tag
+  ## @param controller.apiserverReceiveAdapter.image.digest APIServerReceiveAdapter image digest
+  apiserverReceiveAdapter:
+    image:
+      registry: gcr.io
+      repository: knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter
+      tag: ""
+      digest: sha256:950cd3722edec8a2c2dc172041c91f3e0767ea04953ab46cbb5299f3c260339c
   ## @param controller.containerPorts.metrics
   ## @param controller.containerPorts.profiling
   ## @param controller.containerPorts.probes
@@ -223,7 +240,7 @@ jobsink:
     registry: gcr.io
     repository: knative-releases/knative.dev/eventing/cmd/jobsink
     tag: ""
-    digest: sha256:83abe9703e34487a9b53f0fcf08975c08c0a502d60f7fc35f8440c4705045f36
+    digest: sha256:179fc419e15fb5fbc910519d215704f76b31d578ea0c01fb03f644dfbb80482e
     pullPolicy: IfNotPresent
   ## @param jobsink.containerPorts.http
   ## @param jobsink.containerPorts.https
@@ -301,7 +318,7 @@ mtping:
     registry: gcr.io
     repository: knative-releases/knative.dev/eventing/cmd/mtping
     tag: ""
-    digest: sha256:7b05df78d0530813ef41495ba364ba1ef10b7086cc057dabfc68096006da2d6e
+    digest: sha256:b53e8328a443353bb81679b42ad308e20086ab28461f6837833cf7b305d7013a
     pullPolicy: IfNotPresent
   ## @param mtping.containerPorts.metrics
   ##
@@ -349,7 +366,7 @@ webhook:
     registry: gcr.io
     repository: knative-releases/knative.dev/eventing/cmd/webhook
     tag: ""
-    digest: sha256:3f00c566b5a8cb79fff96dfe3c4aa24427c3e2f83665730a4a263b5028d9b802
+    digest: sha256:85a30e337fa82da02759548d13782983735b2e8df89bac01fea20e0d35343003
     pullPolicy: IfNotPresent
   ## @param webhook.containerPorts.https
   ## @param webhook.containerPorts.metrics

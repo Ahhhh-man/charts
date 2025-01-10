@@ -73,23 +73,12 @@ spec:
               value: config-observability
             - name: METRICS_DOMAIN
               value: knative.dev/eventing
-            # APIServerSource
             - name: APISERVER_RA_IMAGE
-              value: gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter@sha256:367d01a3e69ec08cd0e8f44b100cfb2a3a6de628a793c3b8d60fcb5ddca9229b
+              value: {{ template "knative-eventing.apiserverReceiveAdapter.image" . }}
             - name: POD_NAME
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-                  ##         Adapter settings
-                  #          - name: K_LOGGING_CONFIG
-                  #            value: ''
-                  #          - name: K_LEADER_ELECTION_CONFIG
-                  #            value: ''
-                  #          - name: K_NO_SHUTDOWN_AFTER
-                  #            value: ''
-                  ##           Time in seconds the adapter will wait for the sink to respond. Default is no timeout
-                  #          - name: K_SINK_TIMEOUT
-                  #            value: ''
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
