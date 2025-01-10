@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+{{- if .Values.crds.install }}
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -20,8 +21,7 @@ metadata:
     eventing.knative.dev/source: "true"
     duck.knative.dev/source: "true"
     knative.dev/crd-install: "true"
-    app.kubernetes.io/version: "1.16.2"
-    app.kubernetes.io/name: knative-eventing
+    {{- include "knative-eventing.labels" . | nindent 4 }}
   annotations:
     # TODO add schemas
     registry.knative.dev/eventTypes: |
@@ -284,4 +284,4 @@ spec:
     plural: apiserversources
     singular: apiserversource
   scope: Namespaced
-
+{{- end }}

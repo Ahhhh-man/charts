@@ -97,6 +97,13 @@ Return the proper controller image name
 {{- end -}}
 
 {{/*
+Return the proper apiserver receive adapter image name
+*/}}
+{{- define "knative-eventing.apiserverReceiveAdapter.image" -}}
+{{- include "common.images.image" (dict "imageRoot" .Values.controller.apiserverReceiveAdapter.image "global" .Values.global) -}}
+{{- end -}}
+
+{{/*
 Return the proper jobsink image name
 */}}
 {{- define "knative-eventing.jobsink.image" -}}
