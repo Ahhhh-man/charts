@@ -49,6 +49,11 @@ spec:
               weight: 100
       serviceAccountName: {{ $webhook.serviceAccount.name }}
       enableServiceLinks: {{ $webhook.enableServiceLinks }}
+      {{- if or $webhook.image.pullSecrets .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- include "knative-eventing.imagePullSecrets" (dict "root" . "imagePullSecrets" $webhook.image.pullSecrets) | nindent 8 }}
+      {{- end }}
+      containers:
       containers:
         - name: eventing-webhook
           terminationMessagePolicy: FallbackToLogsOnError

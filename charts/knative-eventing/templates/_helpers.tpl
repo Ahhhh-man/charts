@@ -123,3 +123,17 @@ Return the proper Webhook image name
 {{- define "knative-eventing.webhook.image" -}}
 {{- include "common.images.image" (dict "imageRoot" .Values.webhook.image "global" .Values.global) -}}
 {{- end -}}
+
+{{/*
+Formats imagePullSecrets. Input is (dict "root" . "imagePullSecrets" .{specific imagePullSecrets})
+*/}}
+{{- define "knative-eventing.imagePullSecrets" -}}
+{{- $root := .root }}
+{{- range (concat .root.Values.global.imagePullSecrets .imagePullSecrets) }}
+{{- if eq (typeOf .) "map[string]interface {}" }}
+- {{ toYaml (dict "name" (tpl .name $root)) | trim }}
+{{- else }}
+- name: {{ tpl . $root }}
+{{- end }}
+{{- end }}
+{{- end }}
