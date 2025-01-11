@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-24.04
 
     permissions:
-      contents: write
+      contents: write # to push chart release and create a release (helm/chart-releaser-action)
+      packages: write # needed for ghcr access
 
     steps:
       - name: Checkout
