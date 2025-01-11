@@ -51,6 +51,10 @@ spec:
                 topologyKey: kubernetes.io/hostname
               weight: 100
       enableServiceLinks: {{ $mtping.enableServiceLinks }}
+      {{- if or $mtping.image.pullSecrets .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- include "knative-eventing.imagePullSecrets" (dict "root" . "imagePullSecrets" $mtping.image.pullSecrets) | nindent 8 }}
+      {{- end }}
       containers:
         - name: dispatcher
           image: {{ template "knative-eventing.mtping.image" . }}

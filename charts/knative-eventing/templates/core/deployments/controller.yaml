@@ -48,6 +48,10 @@ spec:
               weight: 100
       serviceAccountName: {{ $controller.serviceAccount.name }}
       enableServiceLinks: {{ $controller.enableServiceLinks }}
+      {{- if or $controller.image.pullSecrets .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- include "knative-eventing.imagePullSecrets" (dict "root" . "imagePullSecrets" $controller.image.pullSecrets) | nindent 8 }}
+      {{- end }}
       containers:
         - name: eventing-controller
           terminationMessagePolicy: FallbackToLogsOnError

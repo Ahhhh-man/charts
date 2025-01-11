@@ -46,6 +46,10 @@ spec:
                 topologyKey: kubernetes.io/hostname
               weight: 100
       enableServiceLinks: {{ $jobsink.enableServiceLinks }}
+      {{- if or $jobsink.image.pullSecrets .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- include "knative-eventing.imagePullSecrets" (dict "root" . "imagePullSecrets" $jobsink.image.pullSecrets) | nindent 8 }}
+      {{- end }}
       containers:
         - name: job-sink
           terminationMessagePolicy: FallbackToLogsOnError
