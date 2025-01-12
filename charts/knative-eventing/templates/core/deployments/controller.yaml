@@ -37,6 +37,14 @@ spec:
         app.kubernetes.io/component: eventing-controller
         {{- include "knative-eventing.labels" . | nindent 8 }}
     spec:
+      {{- with $controller.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
+      {{- with $controller.affinity }}
+      affinity:
+        {{- toYaml . | nindent 12 }}
+      {{- else }}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -46,6 +54,11 @@ spec:
                     app: eventing-controller
                 topologyKey: kubernetes.io/hostname
               weight: 100
+      {{- end }}
+      {{- with $controller.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
       serviceAccountName: {{ $controller.serviceAccount.name }}
       enableServiceLinks: {{ $controller.enableServiceLinks }}
       {{- if or $controller.image.pullSecrets .Values.global.imagePullSecrets }}

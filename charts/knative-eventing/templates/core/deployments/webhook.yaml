@@ -38,6 +38,14 @@ spec:
         app.kubernetes.io/component: eventing-webhook
         {{- include "knative-eventing.labels" . | nindent 8 }}
     spec:
+      {{- with $webhook.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
+      {{- with $webhook.affinity }}
+      affinity:
+        {{- toYaml . | nindent 12 }}
+      {{- else }}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -47,6 +55,11 @@ spec:
                     app: eventing-webhook
                 topologyKey: kubernetes.io/hostname
               weight: 100
+      {{- end }}
+      {{- with $webhook.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
       serviceAccountName: {{ $webhook.serviceAccount.name }}
       enableServiceLinks: {{ $webhook.enableServiceLinks }}
       {{- if or $webhook.image.pullSecrets .Values.global.imagePullSecrets }}

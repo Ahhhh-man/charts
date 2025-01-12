@@ -36,6 +36,14 @@ spec:
         app.kubernetes.io/component: job-sink
         {{- include "knative-eventing.labels" . | nindent 8 }}
     spec:
+      {{- with $jobsink.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
+      {{- with $jobsink.affinity }}
+      affinity:
+        {{- toYaml . | nindent 12 }}
+      {{- else }}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -45,6 +53,11 @@ spec:
                     sinks.knative.dev/sink: job-sink
                 topologyKey: kubernetes.io/hostname
               weight: 100
+      {{- end }}
+      {{- with $jobsink.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
       enableServiceLinks: {{ $jobsink.enableServiceLinks }}
       {{- if or $jobsink.image.pullSecrets .Values.global.imagePullSecrets }}
       imagePullSecrets:
