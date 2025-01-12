@@ -230,7 +230,6 @@ controller:
   readinessProbe: {}
   ## @param controller.affinity Affinity for Eventing Controller pods assignment
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
-  ## NOTE: `kustomizeController.podAffinityPreset`, `kustomizeController.podAntiAffinityPreset`, and `kustomizeController.nodeAffinityPreset` will be ignored when it's set
   ##
   affinity: {}
   ## @param controller.nodeSelector Node labels for Eventing Controller pods assignment
@@ -326,7 +325,6 @@ jobsink:
   readinessProbe: {}
   ## @param jobsink.affinity Affinity for Job Sink pods assignment
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
-  ## NOTE: `kustomizeController.podAffinityPreset`, `kustomizeController.podAntiAffinityPreset`, and `kustomizeController.nodeAffinityPreset` will be ignored when it's set
   ##
   affinity: {}
   ## @param jobsink.nodeSelector Node labels for Job Sink pods assignment
@@ -392,7 +390,6 @@ mtping:
   resources: {}
   ## @param mtping.affinity Affinity for Ping Source MT Adapter pods assignment
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
-  ## NOTE: `kustomizeController.podAffinityPreset`, `kustomizeController.podAntiAffinityPreset`, and `kustomizeController.nodeAffinityPreset` will be ignored when it's set
   ##
   affinity: {}
   ## @param mtping.nodeSelector Node labels for Ping Source MT Adapter pods assignment
@@ -488,7 +485,6 @@ webhook:
   readinessProbe: {}
   ## @param webhook.affinity Affinity for Eventing Webhook pods assignment
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
-  ## NOTE: `kustomizeController.podAffinityPreset`, `kustomizeController.podAntiAffinityPreset`, and `kustomizeController.nodeAffinityPreset` will be ignored when it's set
   ##
   affinity: {}
   ## @param webhook.nodeSelector Node labels for Eventing Webhook pods assignment
