@@ -282,6 +282,30 @@ entries:
       artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-01-12T15:55:02.518675027Z"
+    description: 'Knative Serving builds on Kubernetes to support deploying and serving
+      of applications and functions as serverless containers '
+    digest: 59caba82738e1a2ae0e84738c2d2652a2c1fa63c812911b4e85f312860e48357
+    home: https://github.com/Ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - serving
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/Ahhhh-man
+    name: knative-serving
+    sources:
+    - https://github.com/Ahhhh-man/charts/tree/main/charts/knative-serving
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/knative-serving-0.2.0/knative-serving-0.2.0.tgz
+    version: 0.2.0
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-01-12T14:48:40.819112534Z"
     description: 'Knative Serving builds on Kubernetes to support deploying and serving
       of applications and functions as serverless containers '
@@ -629,4 +653,4 @@ entries:
     urls:
     - https://github.com/Ahhhh-man/charts/releases/download/net-kourier-0.1.1/net-kourier-0.1.1.tgz
     version: 0.1.1
-generated: "2025-01-12T14:48:40.819317299Z"
+generated: "2025-01-12T15:55:02.518740448Z"
