@@ -21,4 +21,4 @@ name: knative-eventing
 sources:
   - https://github.com/Ahhhh-man/charts/tree/main/charts/knative-eventing
 type: application
-version: 0.3.1
+version: 0.3.2
