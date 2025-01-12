@@ -18,8 +18,9 @@ metadata:
   name: knative-serving-core
   labels:
     serving.knative.dev/controller: "true"
-    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
-    app.kubernetes.io/name: knative-serving
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 rules:
   - apiGroups: [""]
     resources:

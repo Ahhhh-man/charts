@@ -16,11 +16,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: autoscaler
-  namespace: "{{ .Release.Namespace }}"
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/component: autoscaler
-    app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
@@ -107,13 +108,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: autoscaler
+  namespace: {{ .Release.Namespace }}
   labels:
     app: autoscaler
     app.kubernetes.io/component: autoscaler
-    app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
-  name: autoscaler
-  namespace: "{{ .Release.Namespace }}"
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 spec:
   ports:
     # Define metrics and profiling for them to be accessible within service meshes.

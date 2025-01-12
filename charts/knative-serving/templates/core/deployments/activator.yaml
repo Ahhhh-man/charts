@@ -16,11 +16,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: activator
-  namespace: "{{ .Release.Namespace }}"
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/component: activator
-    app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
@@ -124,9 +125,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: activator-service
-  namespace: "{{ .Release.Namespace }}"
-  labels: {{ include "common.labels.standard" . | nindent 4 }}
+  namespace: {{ .Release.Namespace }}
+  labels:
     app: activator
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 spec:
   selector:
     app: activator

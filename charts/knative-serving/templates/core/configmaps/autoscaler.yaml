@@ -16,13 +16,13 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: config-autoscaler
-  namespace: "{{ .Release.Namespace }}"
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/component: autoscaler
-    app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
+    {{ include "knative-serving.labels" . | nindent 4 }}
   annotations:
     knative.dev/example-checksum: "47c2487f"
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 data:
 {{- range $key, $value := .Values.config.autoscaler }}
   {{ $key }}: {{ $value }}
