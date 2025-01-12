@@ -5,11 +5,13 @@
 !.gitignore
 !.gitkeep
 !.gitattributes
+!.github/**/*
 
 # Allow documentation files
 !README.md
 !CODEOWNERS
 !LICENSE
+!CODE_OF_CONDUCT.md
 
 # Allow Nix files
 !.envrc
