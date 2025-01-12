@@ -2,6 +2,30 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
+## @param global.imageRegistry Global Docker image registry
+##
+global:
+  imageRegistry: ""
+
+## @section Common parameters
+
+## @param nameOverride String to override knative-eventing full name
+##
+nameOverride: ""
+## @param commonLabels Labels to add to all deployed objects
+##
+commonLabels: {}
+## @param commonAnnotations Annotations to add to all deployed objects
+##
+commonAnnotations: {}
+
+## @section knative-serving crds
+##
+crds:
+  ## @param crds.install Install CRDs
+  ##
+  install: true
+
 ## @section knative-serving configmaps
 ##
 config:

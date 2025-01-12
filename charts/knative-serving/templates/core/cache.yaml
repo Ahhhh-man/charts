@@ -16,11 +16,13 @@ apiVersion: caching.internal.knative.dev/v1alpha1
 kind: Image
 metadata:
   name: queue-proxy
-  namespace: "{{ .Release.Namespace }}"
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/component: queue-proxy
-    app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 spec:
   # This is the Go import path for the binary that is containerized
   # and substituted here.

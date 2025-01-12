@@ -1,5 +1,7 @@
 # Knative Serving Helm Chart
 
+![AppVersion: 1.16.0](https://img.shields.io/badge/AppVersion-1.16.0-informational?style=flat-square)
+
 Knative Serving builds on Kubernetes to support deploying and serving of applications and functions as serverless containers.
 
 See the [Knative Serving documentation](https://knative.dev/docs/serving/) for more information about Knative Serving.

@@ -22,4 +22,4 @@ name: knative-serving
 sources:
   - https://github.com/Ahhhh-man/charts/tree/main/charts/knative-serving
 type: application
-version: 0.1.8
+version: 0.2.0

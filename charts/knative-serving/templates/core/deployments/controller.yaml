@@ -16,7 +16,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: controller
-  namespace: "{{ .Release.Namespace }}"
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: knative-serving
@@ -105,13 +105,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: controller
+  namespace: {{ .Release.Namespace }}
   labels:
     app: controller
     app.kubernetes.io/component: controller
-    app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
-  name: controller
-  namespace: "{{ .Release.Namespace }}"
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 spec:
   ports:
     # Define metrics and profiling for them to be accessible within service meshes.

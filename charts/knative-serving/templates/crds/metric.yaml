@@ -1,4 +1,4 @@
-# Copyright 2018 The Knative Authors
+# Copyright 2019 The Knative Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,22 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+{{- if .Values.crds.install }}
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: images.caching.internal.knative.dev
+  name: metrics.autoscaling.internal.knative.dev
   labels:
-    app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.16.0"
+    {{ include "knative-serving.labels" . | nindent 4 }}
 spec:
-  group: caching.internal.knative.dev
+  group: autoscaling.internal.knative.dev
   names:
-    kind: Image
-    plural: images
-    singular: image
+    kind: Metric
+    plural: metrics
+    singular: metric
     categories:
       - knative-internal
-      - caching
+      - autoscaling
   scope: Namespaced
   versions:
     - name: v1alpha1
@@ -35,11 +35,16 @@ spec:
       storage: true
       subresources:
         status: {}
+      additionalPrinterColumns:
+        - name: Ready
+          type: string
+          jsonPath: ".status.conditions[?(@.type=='Ready')].status"
+        - name: Reason
+          type: string
+          jsonPath: ".status.conditions[?(@.type=='Ready')].reason"
       schema:
         openAPIV3Schema:
-          description: |-
-            Image is a Knative abstraction that encapsulates the interface by which Knative
-            components express a desire to have a particular image cached.
+          description: Metric represents a resource to configure the metric collector with.
           type: object
           properties:
             apiVersion:
@@ -60,46 +65,26 @@ spec:
             metadata:
               type: object
             spec:
-              description: Spec holds the desired state of the Image (from the client).
+              description: Spec holds the desired state of the Metric (from the client).
               type: object
               required:
-                - image
+                - panicWindow
+                - scrapeTarget
+                - stableWindow
               properties:
-                image:
-                  description: Image is the name of the container image url to cache across the cluster.
+                panicWindow:
+                  description: PanicWindow is the aggregation window for metrics where quick reactions are needed.
+                  type: integer
+                  format: int64
+                scrapeTarget:
+                  description: ScrapeTarget is the K8s service that publishes the metric endpoint.
                   type: string
-                imagePullSecrets:
-                  description: |-
-                    ImagePullSecrets contains the names of the Kubernetes Secrets containing login
-                    information used by the Pods which will run this container.
-                  type: array
-                  items:
-                    description: |-
-                      LocalObjectReference contains enough information to let you locate the
-                      referenced object inside the same namespace.
-                    type: object
-                    properties:
-                      name:
-                        description: |-
-                          Name of the referent.
-                          This field is effectively required, but due to backwards compatibility is
-                          allowed to be empty. Instances of this type with an empty value here are
-                          almost certainly wrong.
-                          TODO: Add other useful fields. apiVersion, kind, uid?
-                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                          TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
-                        type: string
-                        default: ""
-                    x-kubernetes-map-type: atomic
-                serviceAccountName:
-                  description: |-
-                    ServiceAccountName is the name of the Kubernetes ServiceAccount as which the Pods
-                    will run this container.  This is potentially used to authenticate the image pull
-                    if the service account has attached pull secrets.  For more information:
-                    https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#add-imagepullsecrets-to-a-service-account
-                  type: string
+                stableWindow:
+                  description: StableWindow is the aggregation window for metrics in a stable state.
+                  type: integer
+                  format: int64
             status:
-              description: Status communicates the observed state of the Image (from the controller).
+              description: Status communicates the observed state of the Metric (from the controller).
               type: object
               properties:
                 annotations:
@@ -152,7 +137,4 @@ spec:
                     was last processed by the controller.
                   type: integer
                   format: int64
-      additionalPrinterColumns:
-        - name: Image
-          type: string
-          jsonPath: .spec.image
+{{- end }}

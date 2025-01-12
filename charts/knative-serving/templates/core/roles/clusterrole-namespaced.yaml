@@ -18,8 +18,9 @@ metadata:
   name: knative-serving-namespaced-admin
   labels:
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
-    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
-    app.kubernetes.io/name: knative-serving
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 rules:
   - apiGroups: ["serving.knative.dev"]
     resources: ["*"]
@@ -39,8 +40,9 @@ metadata:
   name: knative-serving-namespaced-edit
   labels:
     rbac.authorization.k8s.io/aggregate-to-edit: "true"
-    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
-    app.kubernetes.io/name: knative-serving
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 rules:
   - apiGroups: ["serving.knative.dev"]
     resources: ["*"]
@@ -60,8 +62,9 @@ metadata:
   name: knative-serving-namespaced-view
   labels:
     rbac.authorization.k8s.io/aggregate-to-view: "true"
-    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
-    app.kubernetes.io/name: knative-serving
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 rules:
   - apiGroups:
       [
