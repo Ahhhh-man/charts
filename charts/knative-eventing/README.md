@@ -4,21 +4,12 @@ Knative Eventing provides you with helpful tools that can be used to create even
 
 See the [Knative Eventing documentation](https://knative.dev/docs/eventing/) for more information about Knative Eventing.
 
-## Get Repo Info
-
-```console
-helm repo add ahhhh https://ahhhh-man.github.io/charts
-helm repo update
-```
-
-_See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation._
-
 ## Installing the Chart
 
 To install the chart with the release name `knative-eventing`:
 
 ```console
-helm install knative-eventing ahhhh/knative-eventing --namespace knative-eventing --create-namespace
+helm install knative-eventing oci://ghcr.io/ahhhh-man/charts/knative-eventing --namespace knative-eventing --create-namespace
 ```
 
 ## Uninstalling the Chart
