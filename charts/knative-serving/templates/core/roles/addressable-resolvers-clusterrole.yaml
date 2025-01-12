@@ -20,8 +20,9 @@ metadata:
   # (which should be identical, but isn't guaranteed to be installed alongside serving).
   name: knative-serving-aggregated-addressable-resolver
   labels:
-    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
-    app.kubernetes.io/name: knative-serving
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
@@ -32,11 +33,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: knative-serving-addressable-resolver
   labels:
-    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
-    app.kubernetes.io/name: knative-serving
+    {{ include "knative-serving.labels" . | nindent 4 }}
     # Labeled to facilitate aggregated cluster roles that act on Addressables.
     duck.knative.dev/addressable: "true"
-
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 # Do not use this role directly. These rules will be added to the "addressable-resolver" role.
 rules:
   - apiGroups:

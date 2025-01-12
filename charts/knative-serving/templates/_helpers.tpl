@@ -34,16 +34,19 @@ If image tag and digest are not defined, termination fallbacks to chart appVersi
 {{- end -}}
 
 {{/*
-Kubernetes standard labels
+Create chart name and version as used by the chart label.
 */}}
-{{- define "common.labels.standard" -}}
-app.kubernetes.io/name: {{ .Chart.Name }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- with .Chart.AppVersion }}
-app.kubernetes.io/version: {{ . | quote }}
-{{- end -}}
-{{- end -}}
+{{- define "knative-serving.chart" -}}
+{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+
+{{/*
+Expand the name of the chart.
+*/}}
+{{- define "knative-serving.name" -}}
+{{- default "knative-serving" .Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- end }}
 
 {{/*
 Define the version defined by AppVersion 
@@ -51,6 +54,41 @@ Define the version defined by AppVersion
 {{- define "knative-serving.version" -}}
 {{- default .Chart.AppVersion | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
+
+{{/*
+Common labels
+*/}}
+{{- define "knative-serving.labels" -}}
+helm.sh/chart: {{ include "knative-serving.chart" . }}
+app.kubernetes.io/name: {{ include "knative-serving.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{ include "knative-serving.selectorLabels" . }}
+{{- if or .Chart.AppVersion .Values.image.tag }}
+app.kubernetes.io/version: {{ include "knative-serving.version" . }}
+{{- end }}
+{{- with .Values.commonLabels }}
+{{ toYaml . }}
+{{- end }}
+{{- end }}
+
+{{/*
+Common annotations
+*/}}
+{{- define "knative-serving.annotations" -}}
+{{- with .Values.commonAnnotations }}
+{{ toYaml . }}
+{{- end }}
+{{- end }}
+
+{{/*
+Selector labels
+*/}}
+{{- define "knative-serving.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "knative-serving.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
 
 {{/*
 Return the proper activator image name

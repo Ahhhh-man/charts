@@ -1,4 +1,4 @@
-# Copyright 2019 The Knative Authors
+# Copyright 2018 The Knative Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,29 +12,52 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+{{- if .Values.crds.install }}
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: serverlessservices.networking.internal.knative.dev
+  name: podautoscalers.autoscaling.internal.knative.dev
   labels:
-    app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.16.0"
+    {{ include "knative-serving.labels" . | nindent 4 }}
 spec:
-  group: networking.internal.knative.dev
+  group: autoscaling.internal.knative.dev
+  names:
+    kind: PodAutoscaler
+    plural: podautoscalers
+    singular: podautoscaler
+    categories:
+      - knative-internal
+      - autoscaling
+    shortNames:
+      - kpa
+      - pa
+  scope: Namespaced
   versions:
     - name: v1alpha1
       served: true
       storage: true
       subresources:
         status: {}
+      additionalPrinterColumns:
+        - name: DesiredScale
+          type: integer
+          jsonPath: ".status.desiredScale"
+        - name: ActualScale
+          type: integer
+          jsonPath: ".status.actualScale"
+        - name: Ready
+          type: string
+          jsonPath: ".status.conditions[?(@.type=='Ready')].status"
+        - name: Reason
+          type: string
+          jsonPath: ".status.conditions[?(@.type=='Ready')].reason"
       schema:
         openAPIV3Schema:
           description: |-
-            ServerlessService is a proxy for the K8s service objects containing the
-            endpoints for the revision, whether those are endpoints of the activator or
-            revision pods.
-            See: https://knative.page.link/naxz for details.
+            PodAutoscaler is a Knative abstraction that encapsulates the interface by which Knative
+            components instantiate autoscalers.  This definition is an abstraction that may be backed
+            by multiple definitions.  For more information, see the Knative Pluggability presentation:
+            https://docs.google.com/presentation/d/19vW9HFZ6Puxt31biNZF3uLRejDmu82rxJIk1cWmxF7w/edit
           type: object
           properties:
             apiVersion:
@@ -55,43 +78,35 @@ spec:
             metadata:
               type: object
             spec:
-              description: |-
-                Spec is the desired state of the ServerlessService.
-                More info: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+              description: Spec holds the desired state of the PodAutoscaler (from the client).
               type: object
               required:
-                - objectRef
                 - protocolType
+                - scaleTargetRef
               properties:
-                mode:
-                  description: Mode describes the mode of operation of the ServerlessService.
-                  type: string
-                numActivators:
+                containerConcurrency:
                   description: |-
-                    NumActivators contains number of Activators that this revision should be
-                    assigned.
-                    O means — assign all.
+                    ContainerConcurrency specifies the maximum allowed
+                    in-flight (concurrent) requests per container of the Revision.
+                    Defaults to `0` which means unlimited concurrency.
                   type: integer
-                  format: int32
-                objectRef:
+                  format: int64
+                protocolType:
+                  description: The application-layer protocol. Matches `ProtocolType` inferred from the revision spec.
+                  type: string
+                reachability:
                   description: |-
-                    ObjectRef defines the resource that this ServerlessService
-                    is responsible for making "serverless".
+                    Reachability specifies whether or not the `ScaleTargetRef` can be reached (ie. has a route).
+                    Defaults to `ReachabilityUnknown`
+                  type: string
+                scaleTargetRef:
+                  description: |-
+                    ScaleTargetRef defines the /scale-able resource that this PodAutoscaler
+                    is responsible for quickly right-sizing.
                   type: object
                   properties:
                     apiVersion:
                       description: API version of the referent.
-                      type: string
-                    fieldPath:
-                      description: |-
-                        If referring to a piece of an object instead of an entire object, this string
-                        should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2].
-                        For example, if the object reference is to a container within a pod, this would take on a value like:
-                        "spec.containers{name}" (where "name" refers to the name of the container that triggered
-                        the event) or if no container name is specified "spec.containers[2]" (container with
-                        index 2 in this pod). This syntax is chosen only to have some well-defined way of
-                        referencing a part of an object.
-                        TODO: this design is not final and this field is subject to change in the future.
                       type: string
                     kind:
                       description: |-
@@ -103,33 +118,18 @@ spec:
                         Name of the referent.
                         More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                       type: string
-                    namespace:
-                      description: |-
-                        Namespace of the referent.
-                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
-                      type: string
-                    resourceVersion:
-                      description: |-
-                        Specific resourceVersion to which this reference is made, if any.
-                        More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
-                      type: string
-                    uid:
-                      description: |-
-                        UID of the referent.
-                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids
-                      type: string
                   x-kubernetes-map-type: atomic
-                protocolType:
-                  description: |-
-                    The application-layer protocol. Matches `RevisionProtocolType` set on the owning pa/revision.
-                    serving imports networking, so just use string.
-                  type: string
             status:
-              description: |-
-                Status is the current state of the ServerlessService.
-                More info: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+              description: Status communicates the observed state of the PodAutoscaler (from the controller).
               type: object
+              required:
+                - metricsServiceName
+                - serviceName
               properties:
+                actualScale:
+                  description: ActualScale shows the actual number of replicas for the revision.
+                  type: integer
+                  format: int32
                 annotations:
                   description: |-
                     Annotations is additional Status fields for the Resource to save some
@@ -174,48 +174,24 @@ spec:
                       type:
                         description: Type of condition.
                         type: string
+                desiredScale:
+                  description: DesiredScale shows the current desired number of replicas for the revision.
+                  type: integer
+                  format: int32
+                metricsServiceName:
+                  description: |-
+                    MetricsServiceName is the K8s Service name that provides revision metrics.
+                    The service is managed by the PA object.
+                  type: string
                 observedGeneration:
                   description: |-
                     ObservedGeneration is the 'Generation' of the Service that
                     was last processed by the controller.
                   type: integer
                   format: int64
-                privateServiceName:
-                  description: |-
-                    PrivateServiceName holds the name of a core K8s Service resource that
-                    load balances over the user service pods backing this Revision.
-                  type: string
                 serviceName:
                   description: |-
-                    ServiceName holds the name of a core K8s Service resource that
-                    load balances over the pods backing this Revision (activator or revision).
+                    ServiceName is the K8s Service name that serves the revision, scaled by this PA.
+                    The service is created and owned by the ServerlessService object owned by this PA.
                   type: string
-      additionalPrinterColumns:
-        - name: Mode
-          type: string
-          jsonPath: ".spec.mode"
-        - name: Activators
-          type: integer
-          jsonPath: ".spec.numActivators"
-        - name: ServiceName
-          type: string
-          jsonPath: ".status.serviceName"
-        - name: PrivateServiceName
-          type: string
-          jsonPath: ".status.privateServiceName"
-        - name: Ready
-          type: string
-          jsonPath: ".status.conditions[?(@.type=='Ready')].status"
-        - name: Reason
-          type: string
-          jsonPath: ".status.conditions[?(@.type=='Ready')].reason"
-  names:
-    kind: ServerlessService
-    plural: serverlessservices
-    singular: serverlessservice
-    categories:
-      - knative-internal
-      - networking
-    shortNames:
-      - sks
-  scope: Namespaced
+{{- end }}

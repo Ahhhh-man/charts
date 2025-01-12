@@ -18,14 +18,16 @@ metadata:
   name: config.webhook.serving.knative.dev
   labels:
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 webhooks:
   - admissionReviewVersions: ["v1", "v1beta1"]
     clientConfig:
       service:
         name: webhook
-        namespace: "{{ .Release.Namespace }}"
+        namespace: {{ .Release.Namespace }}
     failurePolicy: Fail
     sideEffects: None
     name: config.webhook.serving.knative.dev

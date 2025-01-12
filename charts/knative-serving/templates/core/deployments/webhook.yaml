@@ -16,11 +16,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webhook
-  namespace: "{{ .Release.Namespace }}"
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
-    app.kubernetes.io/name: knative-serving
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
@@ -35,7 +36,6 @@ spec:
         app.kubernetes.io/version: {{ include "knative-serving.version" . }}
         app.kubernetes.io/name: knative-serving
     spec:
-      # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -112,17 +112,17 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: webhook
+  namespace: {{ .Release.Namespace }}
   labels:
     app: webhook
     role: webhook
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
-    app.kubernetes.io/name: knative-serving
-  name: webhook
-  namespace: "{{ .Release.Namespace }}"
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 spec:
   ports:
-    # Define metrics and profiling for them to be accessible within service meshes.
     - name: http-metrics
       port: 9090
       targetPort: 9090
