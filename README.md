@@ -9,7 +9,7 @@ This repository contains [Helm](https://helm.sh) charts for various knative proj
 * [kourier](https://github.com/Ahhhh-man/charts/tree/main/charts/kourier)
 * [net-kourier](https://github.com/Ahhhh-man/charts/tree/main/charts/net-kourier)
 * [net-istio](https://github.com/Ahhhh-man/charts/tree/main/charts/net-istio)
-* [knative-eventing](https://github.com/Ahhhh-man/charts/tree/main/charts/knative-eventing/)
+* [knative-eventing](https://github.com/Ahhhh-man/charts/tree/main/charts/knative-eventing)
 
 ## Installing Charts from this Repository
 
@@ -17,6 +17,7 @@ Add the Repository to Helm:
 
 ```sh
 helm repo add ahhhh https://ahhhh-man.github.io/charts
+helm repo update
 ```
 
 Install serving:
@@ -30,9 +31,9 @@ helm install knative-serving ahhhh/knative-serving --namespace knative-serving -
 Install networking layer:
 
 ```sh
-istioctl install --set profile=demo
+istioctl install -y
 helm install net-istio ahhhh/net-istio --namespace knative-serving
 ```
 
 ## License
-[Apache 2.0 License](https://github.com/Ahhhh-man/charts/blob/main/LICENSE).
+[Apache 2.0 License](https://github.com/Ahhhh-man/charts/blob/main/LICENSE)
