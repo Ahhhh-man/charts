@@ -40,6 +40,14 @@ spec:
         app.kubernetes.io/component: pingsource-mt-adapter
         {{- include "knative-eventing.labels" . | nindent 8 }}
     spec:
+      {{- with $mtping.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
+      {{- with $mtping.affinity }}
+      affinity:
+        {{- toYaml . | nindent 12 }}
+      {{- else }}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -50,6 +58,11 @@ spec:
                     sources.knative.dev/role: adapter
                 topologyKey: kubernetes.io/hostname
               weight: 100
+      {{- end }}
+      {{- with $mtping.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
       enableServiceLinks: {{ $mtping.enableServiceLinks }}
       {{- if or $mtping.image.pullSecrets .Values.global.imagePullSecrets }}
       imagePullSecrets:
