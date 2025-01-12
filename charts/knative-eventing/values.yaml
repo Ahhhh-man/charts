@@ -89,10 +89,10 @@ config:
     new-apiserversource-filters: "disabled"
   ## @param config.kreferenceMapping provide mappings from a Knative reference to a templated URI
   ## https://knative.dev/docs/eventing/features/kreference-mapping/
-  kreferenceMapping:
+  kreferenceMapping: {}
   ## @param config.leaderElection leader election configuration for high-availability deployments
   ## https://knative.dev/docs/serving/config-ha/
-  leaderElection:
+  leaderElection: {}
   ## @param config.logging global logging configuration for Knative Eventing
   ## https://knative.dev/docs/serving/observability/logging/config-logging/
   logging:
@@ -124,10 +124,10 @@ config:
     "loglevel.webhook": "info"
   ## @param config.observability global observability configuration
   ## https://knative.dev/docs/serving/observability/metrics/collecting-metrics/#set-up-the-collector
-  observability:
+  observability: {}
   ## @param config.sugar produce or control eventing resources
   ## https://knative.dev/docs/eventing/sugar/
-  sugar:
+  sugar: {}
   ## @param config.tracing global tracing configuration for Knative Eventing
   ## e.g:
   ## tracing:
@@ -135,7 +135,7 @@ config:
   ##   zipkin-endpoint: http://opentelemetry-collector:9411/api/v2/spans
   ##   debug: "false"
   ##   sampling-rate: "0.1"
-  tracing:
+  tracing: {}
 
 ## @section knative-eventing deployment
 
