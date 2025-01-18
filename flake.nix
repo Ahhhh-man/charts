@@ -1,19 +1,19 @@
 {
-  description = "A flake for installing helm and related tools";
+  description = "Helm charts for Knative";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { 
-    self, 
-    nixpkgs, 
+  outputs = {
+    self,
+    nixpkgs,
     flake-utils,
     ...
   }:
     flake-utils.lib.eachDefaultSystem (system:
-      let 
+      let
         pkgs = import nixpkgs { inherit system; };
         buildInputs = with pkgs; [
           kustomize
@@ -34,11 +34,19 @@
           func
           chart-testing
           istioctl
+          pre-commit
+          codespell
         ];
       in
       {
         devShells.default = pkgs.mkShell {
           inherit buildInputs;
+
+          shellHook = ''
+          if [ ! -f .git/hooks/pre-commit ]; then
+            pre-commit install
+          fi
+          '';
         };
       }
     );

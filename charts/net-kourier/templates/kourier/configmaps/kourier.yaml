@@ -64,7 +64,7 @@ data:
     stream-idle-timeout: "0s"
 
     # Specifies whether to use CryptoMB private key provider in order to
-    # acclerate the TLS handshake.
+    # accelerate the TLS handshake.
     # NOTE THAT THIS IS AN EXPERIMENTAL / ALPHA FEATURE.
     enable-cryptomb: "false"
 
