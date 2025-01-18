@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+{{- $autoscaler := .Values.autoscaler }}
+{{- if $autoscaler.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,7 +25,7 @@ metadata:
   annotations:
     {{ include "knative-serving.annotations" . | nindent 4 }}
 spec:
-  replicas: 1
+  replicas: {{ $autoscaler.replicas }}
   selector:
     matchLabels:
       app: autoscaler
@@ -36,10 +38,16 @@ spec:
       labels:
         app: autoscaler
         app.kubernetes.io/component: autoscaler
-        app.kubernetes.io/name: knative-serving
-        app.kubernetes.io/version: {{ include "knative-serving.version" . }}
+        {{ include "knative-serving.labels" . | nindent 8 }}
     spec:
-      # To avoid node becoming SPOF, spread our replicas to different nodes.
+      {{- with $autoscaler.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
+      {{- with $autoscaler.affinity }}
+      affinity:
+        {{- toYaml . | nindent 12 }}
+      {{- else }}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -49,11 +57,24 @@ spec:
                     app: autoscaler
                 topologyKey: kubernetes.io/hostname
               weight: 100
+      {{- end }}
+      {{- with $autoscaler.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
       serviceAccountName: controller
       containers:
         - name: autoscaler
           image: {{ template "knative-serving.autoscaler.image" . }}
-          imagePullPolicy: {{ .Values.autoscaler.image.pullPolicy }}
+          imagePullPolicy: {{ $autoscaler.image.pullPolicy }}
+          {{- if or $autoscaler.image.pullSecrets .Values.global.imagePullSecrets }}
+          imagePullSecrets:
+            {{- include "knative-serving.imagePullSecrets" (dict "root" . "imagePullSecrets" $autoscaler.image.pullSecrets) | nindent 8 }}
+          {{- end }}
+          {{- with $autoscaler.resources }}
+          resources:
+          {{- toYaml . | nindent 6 }}
+          {{- else }}
           resources:
             requests:
               cpu: 100m
@@ -61,6 +82,7 @@ spec:
             limits:
               cpu: 1000m
               memory: 1000Mi
+          {{- end }}
           env:
             - name: POD_NAME
               valueFrom:
@@ -92,18 +114,28 @@ spec:
               type: RuntimeDefault
           ports:
             - name: metrics
-              containerPort: 9090
+              containerPort: {{ $autoscaler.containerPorts.metrics }}
             - name: profiling
-              containerPort: 8008
+              containerPort: {{ $autoscaler.containerPorts.profiling }}
             - name: websocket
-              containerPort: 8080
-          readinessProbe:
-            httpGet:
-              port: 8080
+              containerPort: {{ $autoscaler.containerPorts.websocket }}
+          {{- with $autoscaler.livenessProbe }}
+          livenessProbe:
+          {{- toYaml . | nindent 6 }}
+          {{- else }}
           livenessProbe:
             httpGet:
-              port: 8080
+              port: websocket
             failureThreshold: 6
+          {{- end }}
+          {{- with $autoscaler.readinessProbe }}
+          readinessProbe:
+          {{- toYaml . | nindent 6 }}
+          {{- else }} 
+          readinessProbe:
+            httpGet:
+              port: websocket
+          {{- end }}
 ---
 apiVersion: v1
 kind: Service
@@ -116,17 +148,17 @@ metadata:
     {{ include "knative-serving.labels" . | nindent 4 }}
   annotations:
     {{ include "knative-serving.annotations" . | nindent 4 }}
-spec:
-  ports:
-    # Define metrics and profiling for them to be accessible within service meshes.
-    - name: http-metrics
-      port: 9090
-      targetPort: 9090
-    - name: http-profiling
-      port: 8008
-      targetPort: 8008
-    - name: http
-      port: 8080
-      targetPort: 8080
+spec:  
   selector:
     app: autoscaler
+  ports:
+    - name: http-metrics
+      port: 9090
+      targetPort: {{ $autoscaler.containerPorts.metrics }}
+    - name: http-profiling
+      port: 8008
+      targetPort: {{ $autoscaler.containerPorts.profiling }}
+    - name: http
+      port: 8080
+      targetPort: {{ $autoscaler.containerPorts.websocket }}
+{{- end }}
