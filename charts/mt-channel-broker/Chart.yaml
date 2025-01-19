@@ -1,0 +1,25 @@
+# Copyright 2025 Ahhhh-man. All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+annotations:
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/prerelease: "true"
+apiVersion: v2
+appVersion: 1.16.3
+description: |
+  A multi-tenant channel broker for Knative Eventing
+home: https://github.com/Ahhhh-man/charts
+icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+keywords:
+  - knative
+  - eventing
+  - broker
+maintainers:
+  - name: Ahhhh-man
+    url: https://github.com/Ahhhh-man
+name: mt-channel-broker
+sources:
+  - https://github.com/Ahhhh-man/charts/tree/main/charts/mt-channel-broker
+type: application
+version: 0.1.0
