@@ -23,4 +23,4 @@ name: net-kourier
 sources:
   - https://github.com/Ahhhh-man/charts/tree/main/charts/net-kourier
 type: application
-version: 0.2.1
+version: 0.2.2
