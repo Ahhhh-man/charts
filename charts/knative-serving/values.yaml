@@ -3,9 +3,15 @@
 # license that can be found in the LICENSE file.
 
 ## @param global.imageRegistry Global Docker image registry
+## @param global.imagePullSecrets Global Docker registry secret names as an array
 ##
 global:
   imageRegistry: ""
+  ## e.g.
+  ## imagePullSecrets:
+  ##   - myRegistryKeySecretName
+  ##
+  imagePullSecrets: []
 
 ## @section Common parameters
 
@@ -29,56 +35,362 @@ crds:
 ## @section knative-serving configmaps
 ##
 config:
-  autoscaler:
-  certmanager:
-  defaults:
-  deployment:
-  domain:
-    ## NOTE: use `|` due empty string being omitted
-    ## example.com: |
-    ##  ""
-  features:
-  gc:
-  leaderElection:
-  logging:
-  network:
-  observability:
-  tracing:
+  autoscaler: {}
+  certmanager: {}
+  defaults: {}
+  deployment: {}
+  domain: {}
+  features: {}
+  gc: {}
+  leaderElection: {}
+  logging: {}
+  network: {}
+  observability: {}
+  tracing: {}
 
-## @section knative-serving components
-##
+## @section Knative Serving Components
+
+## Knative Serving Activator
 activator:
+  ## @param controller.enabled Enable Activator container deployment
+  ##
+  enabled: true
+  ## Knative Serving Activator image
+  ## @param activator.image.registry Activator image registry
+  ## @param activator.image.repository Activator image repository
+  ## @param activator.image.tag Activator image tag
+  ## @param activator.image.digest Activator image digest
+  ## @param activator.image.pullPolicy Activator image pull policy
+  ## @param activator.image.pullSecrets Activator image pull secrets
+  ##
   image:
-    registry: gcr.io/knative-releases
-    repository: knative.dev/serving/cmd/activator
+    registry: gcr.io
+    repository: knative-releases/knative.dev/serving/cmd/activator
     tag: ""
     digest: sha256:24c19cbee078925b91cd2e85082b581d53b218b410c083b1005dc06dc549b1d3
     pullPolicy: IfNotPresent
+    ## e.g.
+    ## pullSecrets:
+    ##   - myRegistryKeySecretName
+    ##
     pullSecrets: []
+  ## @param activator.containerPorts.metrics
+  ## @param activator.containerPorts.profiling
+  ## @param activator.containerPorts.http1
+  ## @param activator.containerPorts.h2c
+  ## @param activator.containerPorts.https
+  ##
+  containerPorts:
+    metrics: 9090
+    profiling: 8008
+    http1: 8012
+    h2c: 8013
+    https: 8112
+  ## @param activator.serviceAccount.create Specifies whether a ServiceAccount should be created
+  ## @param activator.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
+  ## @param activator.serviceAccount.annotations Annotations to add to the ServiceAccount Metadata
+  ##
+  serviceAccount:
+    create: true
+    name: activator
+    annotations: {}
+  ## @param activator.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+  ## e.g:
+  ## resources:
+  ##   requests:
+  ##     cpu: 300m
+  ##     memory: 60Mi
+  ##   limits:
+  ##     cpu: 1000m
+  ##     memory: 600Mi
+  ##
+  resources: {}
+  ## Activator containers' liveness probe
+  ## @param activator.livenessProbe Set the liveness probe for the Activator container
+  ## e.g:
+  ## livenessProbe:
+  ##   httpGet:
+  ##     port: http1
+  ##   periodSeconds: 10
+  ##   failureThreshold: 12
+  ##   initialDelaySeconds: 15
+  ##
+  livenessProbe: {}
+  ## Activator containers' readiness probe
+  ## @param activator.readinessProbe Set the readiness probe for the Activator container
+  ## e.g:
+  ## readinessProbe:
+  ##   httpGet:
+  ##     port: http1
+  ##   periodSeconds: 5
+  ##   failureThreshold: 5
+  ##
+  readinessProbe: {}
+  ## @param activator.affinity Affinity for Activator pods assignment
+  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+  ##
+  affinity: {}
+  ## @param activator.nodeSelector Node labels for Activator pods assignment
+  ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
+  ##
+  nodeSelector: {}
+  ## @param activator.tolerations Tolerations for Activator pods assignment
+  ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  ##
+  tolerations: []
+  ## @param activator.terminationGracePeriodSeconds The period of time in seconds after the webhook container receives a termination signal before the container should be terminated
+  ##
+  terminationGracePeriodSeconds: 300
 
+## Knative Serving Autoscaler
 autoscaler:
+  ## @param autoscaler.enabled Enable Autoscaler container deployment
+  ##
+  enabled: true
+  ## @param autoscaler.replicas Number of Autoscaler
+  ##
+  replicas: 1
+  ## Knative Serving Autoscaler image
+  ## @param autoscaler.image.registry Autoscaler image registry
+  ## @param autoscaler.image.repository Autoscaler image repository
+  ## @param autoscaler.image.tag Autoscaler image tag
+  ## @param autoscaler.image.digest Autoscaler image digest
+  ## @param autoscaler.image.pullPolicy Autoscaler image pull policy
+  ## @param autoscaler.image.pullSecrets Autoscaler image pull secrets
+  ##
   image:
-    registry: gcr.io/knative-releases
-    repository: knative.dev/serving/cmd/autoscaler
+    registry: gcr.io
+    repository: knative-releases/knative.dev/serving/cmd/autoscaler
     tag: ""
     digest: sha256:5e9236452d89363957d4e7e249d57740a8fcd946aed23f8518d94962bf440250
     pullPolicy: IfNotPresent
+    ## e.g.
+    ## pullSecrets:
+    ##   - myRegistryKeySecretName
+    ##
     pullSecrets: []
+  ## @param autoscaler.containerPorts.metrics
+  ## @param autoscaler.containerPorts.profiling
+  ## @param autoscaler.containerPorts.websocket
+  ##
+  containerPorts:
+    metrics: 9090
+    profiling: 8008
+    websocket: 8080
+  ## @param autoscaler.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
+  ##
+  serviceAccount:
+    name: controller
+  ## @param autoscaler.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+  ## e.g:
+  ## resources:
+  ##   requests:
+  ##     cpu: 100m
+  ##     memory: 100Mi
+  ##   limits:
+  ##     cpu: 1000m
+  ##     memory: 1000Mi
+  ##
+  resources: {}
+  ## Autoscaler containers' liveness probe
+  ## @param autoscaler.livenessProbe Set the liveness probe for the Autoscaler container
+  ## e.g:
+  ## livenessProbe:
+  ##   httpGet:
+  ##     port: websocket
+  ##   failureThreshold: 6
+  ##
+  livenessProbe: {}
+  ## Autoscaler containers' readiness probe
+  ## @param autoscaler.readinessProbe Set the readiness probe for the Autoscaler container
+  ## e.g:
+  ## readinessProbe:
+  ##   httpGet:
+  ##     port: websocket
+  ##
+  readinessProbe: {}
+  ## @param autoscaler.affinity Affinity for Autoscaler pods assignment
+  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+  ##
+  affinity: {}
+  ## @param autoscaler.nodeSelector Node labels for Autoscaler pods assignment
+  ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
+  ##
+  nodeSelector: {}
+  ## @param autoscaler.tolerations Tolerations for Autoscaler pods assignment
+  ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  ##
+  tolerations: []
 
+## Knative Serving Controller
 controller:
+  ## @param controller.enabled Enable Controller container deployment
+  ##
+  enabled: true
+  ## Knative Serving Controller image
+  ## @param controller.image.registry Controller image registry
+  ## @param controller.image.repository Controller image repository
+  ## @param controller.image.tag Controller image tag
+  ## @param controller.image.digest Controller image digest
+  ## @param controller.image.pullPolicy Controller image pull policy
+  ## @param controller.image.pullSecrets Controller image pull secrets
+  ##
   image:
-    registry: gcr.io/knative-releases
-    repository: knative.dev/serving/cmd/controller
+    registry: gcr.io
+    repository: knative-releases/knative.dev/serving/cmd/controller
     tag: ""
     digest: sha256:5fb22b052e6bc98a1a6bbb68c0282ddb50744702acee6d83110302bc990666e9
     pullPolicy: IfNotPresent
+    ## e.g.
+    ## pullSecrets:
+    ##   - myRegistryKeySecretName
+    ##
     pullSecrets: []
+  ## @param controller.containerPorts.metrics
+  ## @param controller.containerPorts.profiling
+  ## @param controller.containerPorts.probes
+  ##
+  containerPorts:
+    metrics: 9090
+    profiling: 8008
+    probes: 8080
+  ## @param controller.serviceAccount.create Specifies whether a ServiceAccount should be created
+  ## @param controller.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
+  ## @param controller.serviceAccount.annotations Annotations to add to the ServiceAccount Metadata
+  ##
+  serviceAccount:
+    create: true
+    name: controller
+    annotations: {}
+  ## @param controller.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+  ## e.g:
+  ## resources:
+  ##   requests:
+  ##     cpu: 100m
+  ##     memory: 100Mi
+  ##   limits:
+  ##     cpu: 1000m
+  ##     memory: 1000Mi
+  ##
+  resources: {}
+  ## Controller containers' liveness probe
+  ## @param controller.livenessProbe Set the liveness probe for the Controller container
+  ## e.g:
+  ## livenessProbe:
+  ##   httpGet:
+  ##     path: /readiness
+  ##     port: probes
+  ##     scheme: HTTP
+  ##   periodSeconds: 5
+  ##   failureThreshold: 3
+  ##
+  livenessProbe: {}
+  ## Controller containers' readiness probe
+  ## @param controller.readinessProbe Set the readiness probe for the Controller container
+  ## e.g:
+  ## readinessProbe:
+  ##   httpGet:
+  ##     path: /health
+  ##     port: probes
+  ##     scheme: HTTP
+  ##   periodSeconds: 5
+  ##   failureThreshold: 6
+  ##
+  readinessProbe: {}
+  ## @param controller.affinity Affinity for Controller pods assignment
+  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+  ##
+  affinity: {}
+  ## @param controller.nodeSelector Node labels for Controller pods assignment
+  ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
+  ##
+  nodeSelector: {}
+  ## @param controller.tolerations Tolerations for Controller pods assignment
+  ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  ##
+  tolerations: []
 
+## Knative Serving Webhook
 webhook:
+  ## @param webhook.enabled Enable Webhook container deployment
+  ##
+  enabled: true
+  ## Knative Serving Webhook image
+  ## @param webhook.image.registry Webhook image registry
+  ## @param webhook.image.repository Webhook image repository
+  ## @param webhook.image.tag Webhook image tag
+  ## @param webhook.image.digest Webhook image digest
+  ## @param webhook.image.pullPolicy Webhook image pull policy
+  ## @param webhook.image.pullSecrets Webhook image pull secrets
+  ##
   image:
-    registry: gcr.io/knative-releases
-    repository: knative.dev/serving/cmd/webhook
+    registry: gcr.io
+    repository: knative-releases/knative.dev/serving/cmd/webhook
     tag: ""
     digest: sha256:0fb5a4245aa4737d443658754464cd0a076de959fe14623fb9e9d31318ccce24
     pullPolicy: IfNotPresent
+    ## e.g.
+    ## pullSecrets:
+    ##   - myRegistryKeySecretName
+    ##
     pullSecrets: []
+  ## @param webhook.containerPorts.metrics
+  ## @param webhook.containerPorts.profiling
+  ## @param webhook.containerPorts.https
+  ##
+  containerPorts:
+    metrics: 9090
+    profiling: 8008
+    https: 8443
+  ## @param webhook.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
+  ##
+  serviceAccount:
+    name: controller
+  ## @param webhook.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+  ## e.g:
+  ## resources:
+  ##   requests:
+  ##     cpu: 100m
+  ##     memory: 100Mi
+  ##   limits:
+  ##     cpu: 500m
+  ##     memory: 500Mi
+  ##
+  resources: {}
+  ## Webhook containers' liveness probe
+  ## @param webhook.livenessProbe Set the liveness probe for the Webhook container
+  ## e.g:
+  ## livenessProbe:
+  ##   periodSeconds: 10
+  ##   httpGet:
+  ##     scheme: HTTPS
+  ##     port: https-webhook
+  ##   failureThreshold: 6
+  ##   initialDelaySeconds: 20
+  ##
+  livenessProbe: {}
+  ## Webhook containers' readiness probe
+  ## @param webhook.readinessProbe Set the readiness probe for the Webhook container
+  ## e.g:
+  ## readinessProbe:
+  ##   periodSeconds: 1
+  ##   httpGet:
+  ##     scheme: HTTPS
+  ##     port: https-webhook
+  ##
+  readinessProbe: {}
+  ## @param webhook.affinity Affinity for Webhook pods assignment
+  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+  ##
+  affinity: {}
+  ## @param webhook.nodeSelector Node labels for Webhook pods assignment
+  ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
+  ##
+  nodeSelector: {}
+  ## @param webhook.tolerations Tolerations for Webhook pods assignment
+  ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  ##
+  tolerations: []
+  ## @param webhook.terminationGracePeriodSeconds The period of time in seconds after the webhook container receives a termination signal before the container should be terminated
+  ##
+  terminationGracePeriodSeconds: 300

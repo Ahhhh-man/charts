@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+{{- $controller := .Values.controller }}
+{{- if $controller.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,8 +21,9 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/component: controller
-    app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: {{ include "knative-serving.version" . }}
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
@@ -30,10 +33,16 @@ spec:
       labels:
         app: controller
         app.kubernetes.io/component: controller
-        app.kubernetes.io/name: knative-serving
-        app.kubernetes.io/version: {{ include "knative-serving.version" . }}
+        {{ include "knative-serving.labels" . | nindent 8 }}
     spec:
-      # To avoid node becoming SPOF, spread our replicas to different nodes.
+      {{- with $controller.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
+      {{- with $controller.affinity }}
+      affinity:
+        {{- toYaml . | nindent 12 }}
+      {{- else }}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -43,11 +52,24 @@ spec:
                     app: controller
                 topologyKey: kubernetes.io/hostname
               weight: 100
-      serviceAccountName: controller
+      {{- end }}
+      {{- with $controller.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
+      serviceAccountName: {{ $controller.serviceAccount.name }}
       containers:
         - name: controller
           image: {{ template "knative-serving.controller.image" . }}
-          imagePullPolicy: {{ .Values.controller.image.pullPolicy }}
+          imagePullPolicy: {{ $controller.image.pullPolicy }}
+          {{- if or $controller.image.pullSecrets .Values.global.imagePullSecrets }}
+          imagePullSecrets:
+            {{- include "knative-serving.imagePullSecrets" (dict "root" . "imagePullSecrets" $controller.image.pullSecrets) | nindent 8 }}
+          {{- end }}
+          {{- with $controller.resources }}
+          resources:
+          {{- toYaml . | nindent 6 }}
+          {{- else }}
           resources:
             requests:
               cpu: 100m
@@ -55,6 +77,7 @@ spec:
             limits:
               cpu: 1000m
               memory: 1000Mi
+          {{- end }}
           env:
             - name: POD_NAME
               valueFrom:
@@ -80,6 +103,17 @@ spec:
                 - ALL
             seccompProfile:
               type: RuntimeDefault
+          ports:
+            - name: metrics
+              containerPort: {{ $controller.containerPorts.metrics }}
+            - name: profiling
+              containerPort: {{ $controller.containerPorts.profiling }}
+            - name: probes
+              containerPort: {{ $controller.containerPorts.probes }}
+          {{- with $controller.livenessProbe }}
+          livenessProbe:
+          {{- toYaml . | nindent 6 }}
+          {{- else }}
           livenessProbe:
             httpGet:
               path: /health
@@ -87,6 +121,11 @@ spec:
               scheme: HTTP
             periodSeconds: 5
             failureThreshold: 6
+          {{- end }}
+          {{- with $controller.readinessProbe }}
+          readinessProbe:
+          {{- toYaml . | nindent 6 }}
+          {{- else }} 
           readinessProbe:
             httpGet:
               path: /readiness
@@ -94,13 +133,7 @@ spec:
               scheme: HTTP
             periodSeconds: 5
             failureThreshold: 3
-          ports:
-            - name: metrics
-              containerPort: 9090
-            - name: profiling
-              containerPort: 8008
-            - name: probes
-              containerPort: 8080
+          {{- end }}
 ---
 apiVersion: v1
 kind: Service
@@ -115,12 +148,12 @@ metadata:
     {{ include "knative-serving.annotations" . | nindent 4 }}
 spec:
   ports:
-    # Define metrics and profiling for them to be accessible within service meshes.
     - name: http-metrics
       port: 9090
-      targetPort: 9090
+      targetPort: {{ $controller.containerPorts.metrics }}
     - name: http-profiling
       port: 8008
-      targetPort: 8008
+      targetPort: {{ $controller.containerPorts.profiling }}
   selector:
     app: controller
+{{- end }}

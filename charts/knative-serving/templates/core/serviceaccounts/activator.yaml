@@ -1,0 +1,54 @@
+
+{{- $activator := .Values.activator }}
+{{- if and $activator.enabled $activator.serviceAccount.create }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ $activator.serviceAccount.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/component: activator
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
+    {{- with $activator.serviceAccount.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: knative-serving-activator
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/component: activator
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ $activator.serviceAccount.name }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: Role
+  name: knative-serving-activator
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: knative-serving-activator-cluster
+  labels:
+    app.kubernetes.io/component: activator
+    {{ include "knative-serving.labels" . | nindent 4 }}
+  annotations:
+    {{ include "knative-serving.annotations" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ $activator.serviceAccount.name }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: knative-serving-activator-cluster
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}
