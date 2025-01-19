@@ -5,6 +5,10 @@
 annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/prerelease: "true"
+  artifacthub.io/recommendations: |
+    - url: https://artifacthub.io/packages/helm/ahhhh/net-istio
+    - url: https://artifacthub.io/packages/helm/ahhhh/kourier
+    - url: https://artifacthub.io/packages/helm/ahhhh/net-kourier
 apiVersion: v2
 appVersion: 1.16.0
 description: |
@@ -22,4 +26,4 @@ name: knative-serving
 sources:
   - https://github.com/Ahhhh-man/charts/tree/main/charts/knative-serving
 type: application
-version: 0.3.0
+version: 0.3.1
