@@ -12,10 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+{{- $controller := .Values.controller }}
+{{- if and $controller.enabled $controller.serviceAccount.create }}
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: controller
+  name: {{ $controller.serviceAccount.name }}
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/component: controller
@@ -47,7 +49,7 @@ metadata:
     {{ include "knative-serving.annotations" . | nindent 4 }}
 subjects:
   - kind: ServiceAccount
-    name: controller
+    name: {{ $controller.serviceAccount.name }}
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
@@ -65,57 +67,10 @@ metadata:
     {{ include "knative-serving.annotations" . | nindent 4 }}
 subjects:
   - kind: ServiceAccount
-    name: controller
+    name: {{ $controller.serviceAccount.name }}
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
   name: knative-serving-aggregated-addressable-resolver
   apiGroup: rbac.authorization.k8s.io
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: activator
-  namespace: {{ .Release.Namespace }}
-  labels:
-    app.kubernetes.io/component: activator
-    {{ include "knative-serving.labels" . | nindent 4 }}
-  annotations:
-    {{ include "knative-serving.annotations" . | nindent 4 }}
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: knative-serving-activator
-  namespace: {{ .Release.Namespace }}
-  labels:
-    app.kubernetes.io/component: activator
-    {{ include "knative-serving.labels" . | nindent 4 }}
-  annotations:
-    {{ include "knative-serving.annotations" . | nindent 4 }}
-subjects:
-  - kind: ServiceAccount
-    name: activator
-    namespace: {{ .Release.Namespace }}
-roleRef:
-  kind: Role
-  name: knative-serving-activator
-  apiGroup: rbac.authorization.k8s.io
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: knative-serving-activator-cluster
-  labels:
-    app.kubernetes.io/component: activator
-    {{ include "knative-serving.labels" . | nindent 4 }}
-  annotations:
-    {{ include "knative-serving.annotations" . | nindent 4 }}
-subjects:
-  - kind: ServiceAccount
-    name: activator
-    namespace: {{ .Release.Namespace }}
-roleRef:
-  kind: ClusterRole
-  name: knative-serving-activator-cluster
-  apiGroup: rbac.authorization.k8s.io
+{{- end }}

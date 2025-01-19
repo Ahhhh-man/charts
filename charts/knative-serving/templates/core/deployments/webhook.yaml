@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+{{- $webhook := .Values.webhook }}
+{{- if $webhook.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -33,9 +35,16 @@ spec:
         app: webhook
         role: webhook
         app.kubernetes.io/component: webhook
-        app.kubernetes.io/version: {{ include "knative-serving.version" . }}
-        app.kubernetes.io/name: knative-serving
-    spec:
+        {{ include "knative-serving.labels" . | nindent 8 }}
+    spec:      
+      {{- with $webhook.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
+      {{- with $webhook.affinity }}
+      affinity:
+        {{- toYaml . | nindent 12 }}
+      {{- else }}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -45,11 +54,24 @@ spec:
                     app: webhook
                 topologyKey: kubernetes.io/hostname
               weight: 100
+      {{- end }}
+      {{- with $webhook.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
       serviceAccountName: controller
       containers:
         - name: webhook
           image: {{ template "knative-serving.webhook.image" . }}
-          imagePullPolicy: {{ .Values.webhook.image.pullPolicy }}
+          imagePullPolicy: {{ $webhook.image.pullPolicy }}
+          {{- if or $webhook.image.pullSecrets .Values.global.imagePullSecrets }}
+          imagePullSecrets:
+            {{- include "knative-serving.imagePullSecrets" (dict "root" . "imagePullSecrets" $webhook.image.pullSecrets) | nindent 8 }}
+          {{- end }}
+          {{- with $webhook.resources }}
+          resources:
+          {{- toYaml . | nindent 6 }}
+          {{- else }}
           resources:
             requests:
               cpu: 100m
@@ -57,6 +79,7 @@ spec:
             limits:
               cpu: 500m
               memory: 500Mi
+          {{- end }}
           env:
             - name: POD_NAME
               valueFrom:
@@ -88,26 +111,36 @@ spec:
               type: RuntimeDefault
           ports:
             - name: metrics
-              containerPort: 9090
+              containerPort: {{ $webhook.containerPorts.metrics }}
             - name: profiling
-              containerPort: 8008
+              containerPort: {{ $webhook.containerPorts.profiling }}
             - name: https-webhook
-              containerPort: 8443
-          readinessProbe:
-            periodSeconds: 1
-            httpGet:
-              scheme: HTTPS
-              port: 8443
+              containerPort: {{ $webhook.containerPorts.https }}
+          {{- with $webhook.livenessProbe }}
+          livenessProbe:
+          {{- toYaml . | nindent 6 }}
+          {{- else }}
           livenessProbe:
             periodSeconds: 10
             httpGet:
               scheme: HTTPS
-              port: 8443
+              port: https-webhook
             failureThreshold: 6
             initialDelaySeconds: 20
+          {{- end }}
+          {{- with $webhook.readinessProbe }}
+          readinessProbe:
+          {{- toYaml . | nindent 6 }}
+          {{- else }} 
+          readinessProbe:
+            periodSeconds: 1
+            httpGet:
+              scheme: HTTPS
+              port: https-webhook
+          {{- end }}
       # Our webhook should gracefully terminate by lame ducking first, set this to a sufficiently
       # high value that we respect whatever value it has configured for the lame duck grace period.
-      terminationGracePeriodSeconds: 300
+      terminationGracePeriodSeconds: {{ $webhook.terminationGracePeriodSeconds }}
 ---
 apiVersion: v1
 kind: Service
@@ -121,17 +154,18 @@ metadata:
     {{ include "knative-serving.labels" . | nindent 4 }}
   annotations:
     {{ include "knative-serving.annotations" . | nindent 4 }}
-spec:
-  ports:
-    - name: http-metrics
-      port: 9090
-      targetPort: 9090
-    - name: http-profiling
-      port: 8008
-      targetPort: 8008
-    - name: https-webhook
-      port: 443
-      targetPort: 8443
+spec:  
   selector:
     app: webhook
     role: webhook
+  ports:
+    - name: http-metrics
+      port: 9090
+      targetPort: {{ $webhook.containerPorts.metrics }}
+    - name: http-profiling
+      port: 8008
+      targetPort: {{ $webhook.containerPorts.profiling }}
+    - name: https-webhook
+      port: 443
+      targetPort: {{ $webhook.containerPorts.https }}
+{{- end }}
