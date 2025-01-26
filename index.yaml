@@ -4,6 +4,31 @@ entries:
   - annotations:
       artifacthub.io/license: Apache-2.0
       artifacthub.io/prerelease: "true"
+      artifacthub.io/recommendations: |
+        - url: https://artifacthub.io/packages/helm/ahhhh/knative-serving
+    apiVersion: v2
+    appVersion: 1.16.3
+    created: "2025-01-26T12:37:06.677414659Z"
+    description: 'Event-driven application platform for Kubernetes '
+    digest: 8a8e4b548683b1dcd4d6116af8eece34aaa7e7a6c8dc0e7a260371d9b3f6eb30
+    home: https://github.com/Ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - eventing
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/Ahhhh-man
+    name: knative-eventing
+    sources:
+    - https://github.com/Ahhhh-man/charts/tree/main/charts/knative-eventing
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/knative-eventing-0.3.6/knative-eventing-0.3.6.tgz
+    version: 0.3.6
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 1.16.3
     created: "2025-01-12T16:22:57.564866535Z"
@@ -300,6 +325,34 @@ entries:
     - https://github.com/Ahhhh-man/charts/releases/download/knative-eventing-0.1.0/knative-eventing-0.1.0.tgz
     version: 0.1.0
   knative-serving:
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/prerelease: "true"
+      artifacthub.io/recommendations: |
+        - url: https://artifacthub.io/packages/helm/ahhhh/net-istio
+        - url: https://artifacthub.io/packages/helm/ahhhh/kourier
+        - url: https://artifacthub.io/packages/helm/ahhhh/net-kourier
+    apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-01-26T12:37:06.773090811Z"
+    description: 'Knative Serving builds on Kubernetes to support deploying and serving
+      of applications and functions as serverless containers '
+    digest: b9327d253bfe8bc6fac9ac005fd421e1de85ba1667e3d6d520bf482a6fbdbde2
+    home: https://github.com/Ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - serving
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/Ahhhh-man
+    name: knative-serving
+    sources:
+    - https://github.com/Ahhhh-man/charts/tree/main/charts/knative-serving
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/knative-serving-0.3.1/knative-serving-0.3.1.tgz
+    version: 0.3.1
   - annotations:
       artifacthub.io/license: Apache-2.0
       artifacthub.io/prerelease: "true"
@@ -752,4 +805,4 @@ entries:
     urls:
     - https://github.com/Ahhhh-man/charts/releases/download/net-kourier-0.1.1/net-kourier-0.1.1.tgz
     version: 0.1.1
-generated: "2025-01-26T12:31:49.351391787Z"
+generated: "2025-01-26T12:37:06.773243067Z"
