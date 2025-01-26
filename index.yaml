@@ -542,6 +542,31 @@ entries:
     urls:
     - https://github.com/Ahhhh-man/charts/releases/download/kourier-0.1.0/kourier-0.1.0.tgz
     version: 0.1.0
+  mt-channel-broker:
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: 1.16.3
+    created: "2025-01-26T12:31:49.351323419Z"
+    description: 'A multi-tenant channel broker for Knative Eventing '
+    digest: 103a8597a94056658cd2dd21bb4ff13990e51d6d54744cdef1245d757dac29ff
+    home: https://github.com/Ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - eventing
+    - broker
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/Ahhhh-man
+    name: mt-channel-broker
+    sources:
+    - https://github.com/Ahhhh-man/charts/tree/main/charts/mt-channel-broker
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/mt-channel-broker-0.1.0/mt-channel-broker-0.1.0.tgz
+    version: 0.1.0
   net-istio:
   - annotations:
       artifacthub.io/license: Apache-2.0
@@ -727,4 +752,4 @@ entries:
     urls:
     - https://github.com/Ahhhh-man/charts/releases/download/net-kourier-0.1.1/net-kourier-0.1.1.tgz
     version: 0.1.1
-generated: "2025-01-19T17:52:09.225201769Z"
+generated: "2025-01-26T12:31:49.351391787Z"
