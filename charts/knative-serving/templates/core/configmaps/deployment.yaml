@@ -25,7 +25,7 @@ metadata:
 data:
   # This is the Go import path for the binary that is containerized
   # and substituted here.
-  queue-sidecar-image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:c61042001b1f21c5d06bdee9b42b5e4524e4370e09d4f46347226f06db29ba0f
+  queue-sidecar-image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:d0be939fdfb469e52e999eb65f39466d18f029984a782affa26322c9fec6db78
 {{- range $key, $value := .Values.config.deployment }}
-  {{ $key }}: {{ $value }}
+  {{ $key }}: {{ $value | quote }}
 {{- end }}

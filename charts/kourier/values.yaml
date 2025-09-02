@@ -16,37 +16,21 @@ global:
   defaultStorageClass: ""
 
 ## @section Common parameters
-##
 
-## @param commonLabels Labels to add to all deployed objects (sub-charts are not considered)
+## @param commonLabels Labels to add to all deployed objects
 ##
-commonLabels:
-  global-label: ""
+commonLabels: {}
 ## @param commonAnnotations Annotations to add to all deployed objects
 ##
 commonAnnotations: {}
 
-## @section net-kourier configmaps
+## @section kourier configuration
 ##
-config:
-  kourier:
-
-## @section net-kourier components
-##
-controller:
-  image:
-    registry: gcr.io/knative-releases
-    repository: knative.dev/net-kourier/cmd/kourier
-    tag: ""
-    digest: sha256:b53b3b680ef1f3cca83740d9e667f60b3581574b95a365dc7a1b9ce3fdd96aa6
-    pullPolicy: IfNotPresent
-    pullSecrets: []
-
 gateway:
   image:
     registry: docker.io
     repository: envoyproxy/envoy
-    tag: v1.31-latest
+    tag: v1.34-latest
     digest: ""
     pullPolicy: IfNotPresent
     pullSecrets: []
