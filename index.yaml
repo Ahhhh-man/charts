@@ -327,6 +327,34 @@ entries:
   knative-serving:
   - annotations:
       artifacthub.io/license: Apache-2.0
+      artifacthub.io/recommendations: |
+        - url: https://artifacthub.io/packages/helm/ahhhh/net-istio
+        - url: https://artifacthub.io/packages/helm/ahhhh/kourier
+        - url: https://artifacthub.io/packages/helm/ahhhh/net-kourier
+    apiVersion: v2
+    appVersion: 1.18.1
+    created: "2025-09-02T23:08:17.16445456Z"
+    description: 'Knative Serving builds on Kubernetes to support deploying and serving
+      of applications and functions as serverless containers '
+    digest: 72b65e62a50f44f939353a57bcfc784545172f950e7b7edeba47d962512e974d
+    home: https://github.com/Ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - serving
+    kubeVersion: '>= 1.31.0-0'
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/Ahhhh-man
+    name: knative-serving
+    sources:
+    - https://github.com/Ahhhh-man/charts/tree/main/charts/knative-serving
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/knative-serving-0.18.0/knative-serving-0.18.0.tgz
+    version: 0.18.0
+  - annotations:
+      artifacthub.io/license: Apache-2.0
       artifacthub.io/prerelease: "true"
       artifacthub.io/recommendations: |
         - url: https://artifacthub.io/packages/helm/ahhhh/net-istio
@@ -547,6 +575,33 @@ entries:
   kourier:
   - annotations:
       artifacthub.io/license: Apache-2.0
+      artifacthub.io/recommendations: |
+        - url: https://artifacthub.io/packages/helm/ahhhh/net-kourier
+        - url: https://artifacthub.io/packages/helm/ahhhh/knative-serving
+    apiVersion: v2
+    appVersion: 1.18.0
+    created: "2025-09-02T23:08:17.389990182Z"
+    description: 'A lightweight Knative Serving ingress '
+    digest: dda08885bd8f22da69a763207e39c922b471596612be08d743c6941ea2773c7f
+    home: https://github.com/Ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - kourier
+    - knative
+    - networking
+    kubeVersion: '>= 1.31.0-0'
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/Ahhhh-man
+    name: kourier
+    sources:
+    - https://github.com/Ahhhh-man/charts/tree/main/charts/kourier
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/kourier-0.18.0/kourier-0.18.0.tgz
+    version: 0.18.0
+  - annotations:
+      artifacthub.io/license: Apache-2.0
       artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 1.16.0
@@ -672,6 +727,36 @@ entries:
     - https://github.com/Ahhhh-man/charts/releases/download/net-istio-0.1.0/net-istio-0.1.0.tgz
     version: 0.1.0
   net-kourier:
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/recommendations: |
+        - url: https://artifacthub.io/packages/helm/ahhhh/kourier
+        - url: https://artifacthub.io/packages/helm/ahhhh/knative-serving
+    apiVersion: v2
+    appVersion: 1.18.0
+    created: "2025-09-02T23:08:17.582575712Z"
+    description: 'Kourier is an Ingress for Knative Serving. Kourier is a lightweight
+      alternative for the Istio ingress as its deployment consists only of an Envoy
+      proxy and a control plane for it. '
+    digest: 82e34577b03ba7b8e8c5d37df29d9fb2c6ba97d09a955adc5cf26dc74d94dd29
+    home: https://github.com/Ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - knative
+    - serving
+    - networking
+    - kourier
+    kubeVersion: '>= 1.31.0-0'
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/Ahhhh-man
+    name: net-kourier
+    sources:
+    - https://github.com/Ahhhh-man/charts/tree/main/charts/net-kourier
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/net-kourier-0.18.0/net-kourier-0.18.0.tgz
+    version: 0.18.0
   - annotations:
       artifacthub.io/license: Apache-2.0
       artifacthub.io/prerelease: "true"
@@ -805,4 +890,4 @@ entries:
     urls:
     - https://github.com/Ahhhh-man/charts/releases/download/net-kourier-0.1.1/net-kourier-0.1.1.tgz
     version: 0.1.1
-generated: "2025-01-26T12:37:06.773243067Z"
+generated: "2025-09-02T23:08:17.582714142Z"
