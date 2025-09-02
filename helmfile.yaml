@@ -1,0 +1,19 @@
+releases:
+- name: knative-serving
+  namespace: knative-serving
+  chart: ./charts/knative-serving
+  values:
+    - config:
+        domain:
+          example.localhost: ""
+        network:
+          ingress-class: kourier.ingress.networking.knative.dev
+          domain-template: "{{ `{{ .Name }}.{{ .Domain }}` }}"
+
+- name: kourier
+  namespace: kourier-system
+  chart: ./charts/kourier
+
+- name: net-kourier
+  namespace: knative-serving
+  chart: ./charts/net-kourier

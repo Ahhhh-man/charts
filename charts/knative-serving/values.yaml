@@ -67,7 +67,7 @@ activator:
     registry: gcr.io
     repository: knative-releases/knative.dev/serving/cmd/activator
     tag: ""
-    digest: sha256:24c19cbee078925b91cd2e85082b581d53b218b410c083b1005dc06dc549b1d3
+    digest: sha256:031408ec516f374636a77ce1c689accfcfa13154abfef96716e636405f64464c
     pullPolicy: IfNotPresent
     ## e.g.
     ## pullSecrets:
@@ -162,7 +162,7 @@ autoscaler:
     registry: gcr.io
     repository: knative-releases/knative.dev/serving/cmd/autoscaler
     tag: ""
-    digest: sha256:5e9236452d89363957d4e7e249d57740a8fcd946aed23f8518d94962bf440250
+    digest: sha256:3502bb5aa60f485ec702f98f0391fa54d91a30e905a1b7ad0adddcd31205c79c
     pullPolicy: IfNotPresent
     ## e.g.
     ## pullSecrets:
@@ -239,7 +239,7 @@ controller:
     registry: gcr.io
     repository: knative-releases/knative.dev/serving/cmd/controller
     tag: ""
-    digest: sha256:5fb22b052e6bc98a1a6bbb68c0282ddb50744702acee6d83110302bc990666e9
+    digest: sha256:5b93308a392c00381f0ac48e7f55806bce7b4d30c34cf399fc7dae3ec538b23d
     pullPolicy: IfNotPresent
     ## e.g.
     ## pullSecrets:
@@ -327,7 +327,7 @@ webhook:
     registry: gcr.io
     repository: knative-releases/knative.dev/serving/cmd/webhook
     tag: ""
-    digest: sha256:0fb5a4245aa4737d443658754464cd0a076de959fe14623fb9e9d31318ccce24
+    digest: sha256:50831d9aaa69c4d2a8277d35650d3e2ad4832b4a04c0a089e715fd190fd8c273
     pullPolicy: IfNotPresent
     ## e.g.
     ## pullSecrets:

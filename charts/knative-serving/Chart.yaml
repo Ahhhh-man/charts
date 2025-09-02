@@ -4,13 +4,12 @@
 
 annotations:
   artifacthub.io/license: Apache-2.0
-  artifacthub.io/prerelease: "true"
   artifacthub.io/recommendations: |
     - url: https://artifacthub.io/packages/helm/ahhhh/net-istio
     - url: https://artifacthub.io/packages/helm/ahhhh/kourier
     - url: https://artifacthub.io/packages/helm/ahhhh/net-kourier
 apiVersion: v2
-appVersion: 1.16.0
+appVersion: 1.18.1
 description: |
   Knative Serving builds on Kubernetes to support deploying and serving of applications and
   functions as serverless containers
@@ -26,4 +25,5 @@ name: knative-serving
 sources:
   - https://github.com/Ahhhh-man/charts/tree/main/charts/knative-serving
 type: application
-version: 0.3.1
+version: 0.18.0
+kubeVersion: '>= 1.31.0-0'

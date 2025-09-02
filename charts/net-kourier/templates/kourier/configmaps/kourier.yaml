@@ -64,7 +64,7 @@ data:
     stream-idle-timeout: "0s"
 
     # Specifies whether to use CryptoMB private key provider in order to
-    # accelerate the TLS handshake.
+    # acclerate the TLS handshake.
     # NOTE THAT THIS IS AN EXPERIMENTAL / ALPHA FEATURE.
     enable-cryptomb: "false"
 
@@ -80,6 +80,9 @@ data:
     # Use ',' separated values like "ECDHE-ECDSA-AES128-GCM-SHA256,ECDHE-ECDSA-CHACHA20-POLY1305"
     # The default uses the default cipher suites of the envoy version.
     cipher-suites: ""
+
+    # Disable the Envoy server header injection in the response when response has no such header.
+    disable-envoy-server-header: "false"
 {{- range $key, $value := .Values.config.kourier }}
-  {{ $key }}: {{ $value }}
+  {{ $key }}: {{ $value | quote }}
 {{- end }}

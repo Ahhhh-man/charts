@@ -25,5 +25,5 @@ metadata:
     {{ include "knative-serving.annotations" . | nindent 4 }}
 data:
 {{- range $key, $value := .Values.config.autoscaler }}
-  {{ $key }}: {{ $value }}
+  {{ $key }}: {{ $value | quote }}
 {{- end }}
