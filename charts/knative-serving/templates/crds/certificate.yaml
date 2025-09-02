@@ -166,10 +166,10 @@ spec:
       additionalPrinterColumns:
         - name: Ready
           type: string
-          jsonPath: '.status.conditions[?(@.type=="Ready")].status'
+          jsonPath: ".status.conditions[?(@.type==\"Ready\")].status"
         - name: Reason
           type: string
-          jsonPath: '.status.conditions[?(@.type=="Ready")].reason'
+          jsonPath: ".status.conditions[?(@.type==\"Ready\")].reason"
   names:
     kind: Certificate
     plural: certificates

@@ -14,6 +14,6 @@ controller:
     registry: gcr.io
     repository: knative-releases/knative.dev/net-kourier/cmd/kourier
     tag: ""
-    digest: sha256:b53b3b680ef1f3cca83740d9e667f60b3581574b95a365dc7a1b9ce3fdd96aa6
+    digest: sha256:15a601147ef4574386e296c4b2456bb1e230d2dc110254295dddb56e5118b5a8
     pullPolicy: IfNotPresent
     pullSecrets: []

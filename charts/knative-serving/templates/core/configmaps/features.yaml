@@ -21,8 +21,9 @@ metadata:
     {{ include "knative-serving.labels" . | nindent 4 }}
     app.kubernetes.io/component: controller
   annotations:
+    knative.dev/example-checksum: "82cbbba9"
     {{ include "knative-serving.annotations" . | nindent 4 }}
 data:
 {{- range $key, $value := .Values.config.features }}
-  {{ $key }}: {{ $value }}
+  {{ $key }}: {{ $value | quote }}
 {{- end }}
