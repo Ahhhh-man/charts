@@ -659,6 +659,33 @@ entries:
         - url: https://artifacthub.io/packages/helm/ahhhh/knative-serving
     apiVersion: v2
     appVersion: 1.18.0
+    created: "2025-09-13T12:25:47.606592618Z"
+    description: 'A lightweight Knative Serving ingress '
+    digest: 6aa696ba408382a57b1b2c8e5d0f92daa858c1a2dd33480dbb4bfa9087c6703b
+    home: https://github.com/Ahhhh-man/charts
+    icon: https://knative.dev/docs/images/logo/rgb/knative-logo-rgb.png
+    keywords:
+    - kourier
+    - knative
+    - networking
+    kubeVersion: '>= 1.31.0-0'
+    maintainers:
+    - name: Ahhhh-man
+      url: https://github.com/Ahhhh-man
+    name: kourier
+    sources:
+    - https://github.com/Ahhhh-man/charts/tree/main/charts/kourier
+    type: application
+    urls:
+    - https://github.com/Ahhhh-man/charts/releases/download/kourier-0.18.1/kourier-0.18.1.tgz
+    version: 0.18.1
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/recommendations: |
+        - url: https://artifacthub.io/packages/helm/ahhhh/net-kourier
+        - url: https://artifacthub.io/packages/helm/ahhhh/knative-serving
+    apiVersion: v2
+    appVersion: 1.18.0
     created: "2025-09-02T23:08:17.389990182Z"
     description: 'A lightweight Knative Serving ingress '
     digest: dda08885bd8f22da69a763207e39c922b471596612be08d743c6941ea2773c7f
@@ -969,4 +996,4 @@ entries:
     urls:
     - https://github.com/Ahhhh-man/charts/releases/download/net-kourier-0.1.1/net-kourier-0.1.1.tgz
     version: 0.1.1
-generated: "2025-09-13T12:14:18.466251944Z"
+generated: "2025-09-13T12:25:47.606723291Z"
