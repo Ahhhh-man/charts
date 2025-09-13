@@ -4,7 +4,6 @@
 
 annotations:
   artifacthub.io/license: Apache-2.0
-  artifacthub.io/prerelease: "true"
   artifacthub.io/recommendations: |
      - url: https://artifacthub.io/packages/helm/ahhhh/knative-serving
 apiVersion: v2
@@ -23,5 +22,5 @@ name: knative-eventing
 sources:
   - https://github.com/Ahhhh-man/charts/tree/main/charts/knative-eventing
 type: application
-version: 0.18.0
+version: 0.18.1
 kubeVersion: '>= 1.31.0-0'
