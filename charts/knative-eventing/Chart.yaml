@@ -8,7 +8,7 @@ annotations:
   artifacthub.io/recommendations: |
      - url: https://artifacthub.io/packages/helm/ahhhh/knative-serving
 apiVersion: v2
-appVersion: 1.16.3
+appVersion: 1.18.3
 description: |
   Event-driven application platform for Kubernetes
 home: https://github.com/Ahhhh-man/charts
@@ -23,4 +23,5 @@ name: knative-eventing
 sources:
   - https://github.com/Ahhhh-man/charts/tree/main/charts/knative-eventing
 type: application
-version: 0.3.6
+version: 0.18.0
+kubeVersion: '>= 1.31.0-0'

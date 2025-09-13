@@ -17,3 +17,7 @@ releases:
 - name: net-kourier
   namespace: knative-serving
   chart: ./charts/net-kourier
+
+- name: knative-eventing
+  namespace: knative-eventing
+  chart: ./charts/knative-eventing

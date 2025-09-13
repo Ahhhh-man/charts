@@ -62,6 +62,9 @@ rules:
       - "containersources"
       - "containersources/status"
       - "containersources/finalizers"
+      - "integrationsources"
+      - "integrationsources/status"
+      - "integrationsources/finalizers"
     verbs:
       - "get"
       - "list"

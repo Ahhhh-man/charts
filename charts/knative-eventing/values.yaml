@@ -156,7 +156,7 @@ controller:
     registry: gcr.io
     repository: knative-releases/knative.dev/eventing/cmd/controller
     tag: ""
-    digest: sha256:59df8234b78293ba2bed205412b7954d89e9f984bbbc06304db80cfae17732ad
+    digest: sha256:ce51558f682c971060d42ca7d4c77500644c3729dc11b35e395fca9710b3bc50
     pullPolicy: IfNotPresent
     ## e.g.
     ## pullSecrets:
@@ -174,7 +174,7 @@ controller:
       registry: gcr.io
       repository: knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter
       tag: ""
-      digest: sha256:950cd3722edec8a2c2dc172041c91f3e0767ea04953ab46cbb5299f3c260339c
+      digest: sha256:a3bff70afe19197888ca4fb199413cd5f50f764657e8c69471e4e2b0561ee836
   ## @param controller.containerPorts.metrics
   ## @param controller.containerPorts.profiling
   ## @param controller.containerPorts.probes
@@ -263,7 +263,7 @@ jobsink:
     registry: gcr.io
     repository: knative-releases/knative.dev/eventing/cmd/jobsink
     tag: ""
-    digest: sha256:179fc419e15fb5fbc910519d215704f76b31d578ea0c01fb03f644dfbb80482e
+    digest: sha256:db31f3058da6d13dfa0294877a3a6a45c75ea2ee41d6b4c2f7ac4eb52e419804
     pullPolicy: IfNotPresent
     ## e.g.
     ## pullSecrets:
@@ -358,7 +358,7 @@ mtping:
     registry: gcr.io
     repository: knative-releases/knative.dev/eventing/cmd/mtping
     tag: ""
-    digest: sha256:b53e8328a443353bb81679b42ad308e20086ab28461f6837833cf7b305d7013a
+    digest: sha256:adaf68a6923c7ef64e4cd8d0a08b7ff0ecaa9b99bdc73b4f944c1c0643c03ee2
     pullPolicy: IfNotPresent
     ## e.g.
     ## pullSecrets:
@@ -369,6 +369,7 @@ mtping:
   ##
   containerPorts:
     metrics: 9090
+    probes: 8080
   ## @param mtping.serviceAccount.create Specifies whether a ServiceAccount should be created
   ## @param mtping.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
   ## @param mtping.serviceAccount.annotations Annotations to add to the ServiceAccount Metadata
@@ -423,7 +424,7 @@ webhook:
     registry: gcr.io
     repository: knative-releases/knative.dev/eventing/cmd/webhook
     tag: ""
-    digest: sha256:85a30e337fa82da02759548d13782983735b2e8df89bac01fea20e0d35343003
+    digest: sha256:29b4ea133bd78d1e89179ced50c58f86291c14ea40661af2e2e888bb551e3967
     pullPolicy: IfNotPresent
     ## e.g.
     ## pullSecrets:

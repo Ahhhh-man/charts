@@ -41,6 +41,7 @@ rules:
       - pingsources
       - sinkbindings
       - containersources
+      - integrationsources
     verbs:
       - get
       - list
