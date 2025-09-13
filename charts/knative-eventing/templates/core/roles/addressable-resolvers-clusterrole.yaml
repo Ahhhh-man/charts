@@ -148,3 +148,41 @@ rules:
       - get
       - list
       - watch
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: integrationsinks-addressable-resolver
+  labels:
+    duck.knative.dev/addressable: "true"
+    {{- include "knative-eventing.labels" . | nindent 4 }}
+# Do not use this role directly. These rules will be added to the "addressable-resolver" role.
+rules:
+  - apiGroups:
+      - sinks.knative.dev
+    resources:
+      - integrationsinks
+      - integrationsinks/status
+    verbs:
+      - get
+      - list
+      - watch
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: eventtransforms-addressable-resolver
+  labels:
+    duck.knative.dev/addressable: "true"
+    {{- include "knative-eventing.labels" . | nindent 4 }}
+# Do not use this role directly. These rules will be added to the "addressable-resolver" role.
+rules:
+  - apiGroups:
+      - eventing.knative.dev
+    resources:
+      - eventtransforms
+      - eventtransforms/status
+    verbs:
+      - get
+      - list
+      - watch

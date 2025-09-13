@@ -1,0 +1,32 @@
+# Copyright 2025 The Knative Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eventing-integrations-images
+  namespace: knative-eventing
+  labels:
+    {{- include "knative-eventing.labels" . | nindent 4 }}
+  annotations:
+    {{- include "knative-eventing.annotations" . | nindent 4 }}
+data:
+  aws-ddb-streams-source: gcr.io/knative-releases/aws-ddb-streams-source@sha256:f3a1b04ea62ab0aafd9675d82dbd09186b154349a287e33581bd7435fa9b96b2
+  timer-source: gcr.io/knative-releases/timer-source@sha256:ffa7dde82d5d30a3fd411ca7fda01e5a77157116c97cc17da0f7ac0b07032e93
+  log-sink: gcr.io/knative-releases/log-sink@sha256:87da054374112c0e78c5a0bbcda09205c030507bde2d6629e5a32d593ff587ca
+  aws-sqs-source: gcr.io/knative-releases/aws-sqs-source@sha256:87a49ca30eceedcde2458ef48517c5d24669f904c9d88a80aa5de196115bacef
+  aws-sns-sink: gcr.io/knative-releases/aws-sns-sink@sha256:c997f8a226a6a89e29c98136ac47b81d6b9b673bc40cdb4a392d3df5f00969f2
+  aws-s3-sink: gcr.io/knative-releases/aws-s3-sink@sha256:6998f21cb3fbf33980ee6814d7dab9c45543c39472afaab3f573dd53f8448d6d
+  aws-s3-source: gcr.io/knative-releases/aws-s3-source@sha256:87480e82fd46d1884c588c4ef05e2dfcf866a5a3ae5a3952bd60c7c51bc1919f
+  aws-sqs-sink: gcr.io/knative-releases/aws-sqs-sink@sha256:278f14bfcff3de55f7c93deb4c3001a19b58f86de00033235f0fb29baa3c0e0b

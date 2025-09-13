@@ -1,6 +1,6 @@
 # Knative Eventing Helm Chart
 
-![AppVersion: 1.16.3](https://img.shields.io/badge/AppVersion-1.16.3-informational?style=flat-square)
+![AppVersion: 1.18.3](https://img.shields.io/badge/AppVersion-1.18.3-informational?style=flat-square)
 
 Knative Eventing provides you with helpful tools that can be used to create event-driven applications, by easily attaching event sources, triggers, and other options to your Knative Services.
 

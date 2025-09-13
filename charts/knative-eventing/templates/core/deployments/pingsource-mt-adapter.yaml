@@ -105,6 +105,8 @@ spec:
             - name: metrics
               containerPort: {{ $mtping.containerPorts.metrics }}
               protocol: TCP
+            - name: probes
+              containerPort: {{ $mtping.containerPorts.probes }}
           {{- with $mtping.resources }}
           resources:
           {{- toYaml . | nindent 6 }}
@@ -126,5 +128,21 @@ spec:
                 - ALL
             seccompProfile:
               type: RuntimeDefault
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: probes
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: probes
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 5
       serviceAccountName: {{ $mtping.serviceAccount.name }}
 {{- end }}
