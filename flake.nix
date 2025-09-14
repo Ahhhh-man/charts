@@ -21,7 +21,6 @@
           kubectx
           k9s
           k3d
-          just
           yq-go
           kubeconform
           (wrapHelm kubernetes-helm {plugins = with kubernetes-helmPlugins; [
@@ -36,6 +35,7 @@
           istioctl
           pre-commit
           codespell
+          go-task
         ];
       in
       {

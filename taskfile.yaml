@@ -1,0 +1,33 @@
+version: '3'
+
+tasks:
+  default:
+    desc: List all available tasks
+    cmds:
+      - task --list-all
+
+  down:
+    desc: Delete k3d cluster
+    prompt: Are you sure you want to delete the k3d cluster?
+    cmds:
+      - k3d cluster delete --config k3d.yaml
+
+  up:
+    desc: Create k3d cluster
+    cmds:
+      - k3d cluster create --config k3d.yaml
+
+  rebuild:
+    desc: Rebuild k3d cluster
+    cmds:
+      - task: down
+      - task: up
+    aliases: [r]
+
+  lint:
+    cmds:
+      - ct lint --config ct.yaml
+
+  test:
+    cmds:
+      - ct install --config ct.yaml
