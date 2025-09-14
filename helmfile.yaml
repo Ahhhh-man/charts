@@ -9,6 +9,7 @@ releases:
         network:
           ingress-class: kourier.ingress.networking.knative.dev
           domain-template: "{{ `{{ .Name }}.{{ .Domain }}` }}"
+          autocreate-cluster-domain-claims: "true"
 
 - name: kourier
   namespace: kourier-system

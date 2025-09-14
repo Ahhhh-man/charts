@@ -7,6 +7,7 @@
 !.gitattributes
 !.github/**/*
 !.pre-commit-config.yaml
+!.codespellrc
 
 # Allow documentation files
 !README.md
@@ -35,5 +36,5 @@
 !**/*.tpl
 !**/NOTES.txt
 
-# Recursively include all files in the following directorie
+# Recursively include all files in the following directories
 !*/
