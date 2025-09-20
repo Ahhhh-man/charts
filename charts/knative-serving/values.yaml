@@ -87,14 +87,16 @@ activator:
     h2c: 8013
     https: 8112
   ## @param activator.serviceAccount.create Specifies whether a ServiceAccount should be created
-  ## @param activator.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
+  ## @param activator.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name
+  ## is generated using the fullname template
   ## @param activator.serviceAccount.annotations Annotations to add to the ServiceAccount Metadata
   ##
   serviceAccount:
     create: true
     name: activator
     annotations: {}
-  ## @param activator.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+  ## @param activator.resources Set container requests and limits for different resources like CPU or memory (essential
+  ## for production workloads)
   ## e.g:
   ## resources:
   ##   requests:
@@ -138,7 +140,8 @@ activator:
   ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   ##
   tolerations: []
-  ## @param activator.terminationGracePeriodSeconds The period of time in seconds after the webhook container receives a termination signal before the container should be terminated
+  ## @param activator.terminationGracePeriodSeconds The period of time in seconds after the webhook container receives a
+  ## termination signal before the container should be terminated
   ##
   terminationGracePeriodSeconds: 300
 
@@ -177,11 +180,13 @@ autoscaler:
     metrics: 9090
     profiling: 8008
     websocket: 8080
-  ## @param autoscaler.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
+  ## @param autoscaler.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name
+  ## is generated using the fullname template
   ##
   serviceAccount:
     name: controller
-  ## @param autoscaler.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+  ## @param autoscaler.resources Set container requests and limits for different resources like CPU or memory (essential
+  ## for production workloads)
   ## e.g:
   ## resources:
   ##   requests:
@@ -255,14 +260,16 @@ controller:
     profiling: 8008
     probes: 8080
   ## @param controller.serviceAccount.create Specifies whether a ServiceAccount should be created
-  ## @param controller.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
+  ## @param controller.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name
+  ## is generated using the fullname template
   ## @param controller.serviceAccount.annotations Annotations to add to the ServiceAccount Metadata
   ##
   serviceAccount:
     create: true
     name: controller
     annotations: {}
-  ## @param controller.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+  ## @param controller.resources Set container requests and limits for different resources like CPU or memory (essential
+  ## for production workloads)
   ## e.g:
   ## resources:
   ##   requests:
@@ -342,11 +349,13 @@ webhook:
     metrics: 9090
     profiling: 8008
     https: 8443
-  ## @param webhook.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
+  ## @param webhook.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is
+  ## generated using the fullname template
   ##
   serviceAccount:
     name: controller
-  ## @param webhook.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+  ## @param webhook.resources Set container requests and limits for different resources like CPU or memory (essential
+  ## for production workloads)
   ## e.g:
   ## resources:
   ##   requests:
@@ -391,6 +400,7 @@ webhook:
   ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   ##
   tolerations: []
-  ## @param webhook.terminationGracePeriodSeconds The period of time in seconds after the webhook container receives a termination signal before the container should be terminated
+  ## @param webhook.terminationGracePeriodSeconds The period of time in seconds after the webhook container receives a
+  ## termination signal before the container should be terminated
   ##
   terminationGracePeriodSeconds: 300

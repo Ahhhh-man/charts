@@ -1,24 +1,24 @@
 releases:
-- name: knative-serving
-  namespace: knative-serving
-  chart: ./charts/knative-serving
-  values:
-    - config:
-        domain:
-          example.localhost: ""
-        network:
-          ingress-class: kourier.ingress.networking.knative.dev
-          domain-template: "{{ .Name }}.{{ .Domain }}"
-          autocreate-cluster-domain-claims: "true"
+  - name: knative-serving
+    namespace: knative-serving
+    chart: ./charts/knative-serving
+    values:
+      - config:
+          domain:
+            example.localhost: ""
+          network:
+            ingress-class: kourier.ingress.networking.knative.dev
+            domain-template: "{{ .Name }}.{{ .Domain }}"
+            autocreate-cluster-domain-claims: "true"
 
-- name: kourier
-  namespace: kourier-system
-  chart: ./charts/kourier
+  - name: kourier
+    namespace: kourier-system
+    chart: ./charts/kourier
 
-- name: net-kourier
-  namespace: knative-serving
-  chart: ./charts/net-kourier
+  - name: net-kourier
+    namespace: knative-serving
+    chart: ./charts/net-kourier
 
-- name: knative-eventing
-  namespace: knative-eventing
-  chart: ./charts/knative-eventing
+  - name: knative-eventing
+    namespace: knative-eventing
+    chart: ./charts/knative-eventing

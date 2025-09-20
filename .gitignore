@@ -23,6 +23,7 @@
 # Allow Specific misc. files
 !justfile
 !k3d.yaml
+!.yamllint
 
 # Allow Helm files
 !Chart.yaml

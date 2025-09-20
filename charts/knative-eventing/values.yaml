@@ -67,10 +67,12 @@ config:
     # ALPHA feature: The kreference-mapping allows you to map kreference onto templated URI
     # For more details: https://github.com/knative/eventing/issues/5593
     kreference-mapping: "disabled"
-    # BETA feature: The transport-encryption flag allows you to encrypt events in transit using the transport layer security (TLS) protocol.
+    # BETA feature: The transport-encryption flag allows you to encrypt events in transit using the transport layer
+    # security (TLS) protocol.
     # For more details: https://github.com/knative/eventing/issues/5957
     transport-encryption: "disabled"
-    # ALPHA feature: The eventtype-auto-create flag allows automatic creation of Even Type instances based on Event's type being processed.
+    # ALPHA feature: The eventtype-auto-create flag allows automatic creation of Even Type instances based on Event's
+    # type being processed.
     # For more details: https://github.com/knative/eventing/issues/6909
     eventtype-auto-create: "disabled"
     # ALPHA feature: The aauthentication-oidc flag allows you to use OIDC authentication for Eventing.
@@ -184,14 +186,16 @@ controller:
     profiling: 8008
     probes: 8080
   ## @param controller.serviceAccount.create Specifies whether a ServiceAccount should be created
-  ## @param controller.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
+  ## @param controller.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name
+  ## is generated using the fullname template
   ## @param controller.serviceAccount.annotations Annotations to add to the ServiceAccount Metadata
   ##
   serviceAccount:
     create: true
     name: eventing-controller
     annotations: {}
-  ## @param controller.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+  ## @param controller.resources Set container requests and limits for different resources like CPU or memory
+  ## (essential for production workloads)
   ## e.g:
   ## resources:
   ##   requests:
@@ -240,8 +244,9 @@ controller:
   ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   ##
   tolerations: []
-  ## @param controller.enableServiceLinks Whether information about services should be injected into pod's environment variable
-  ## The environment variables injected by service links are not used, but can lead to slow boot times or slow running of the scripts when there are many services in the current namespace.
+  ## @param controller.enableServiceLinks Whether information about services should be injected into pod's environment
+  ## variable. The environment variables injected by service links are not used, but can lead to slow boot times or slow
+  ## running of the scripts when there are many services in the current namespace.
   ## If you experience slow pod startups or slow running of the scripts you probably want to set this to `false`.
   ##
   enableServiceLinks: false
@@ -279,14 +284,16 @@ jobsink:
     https: 8443
     metrics: 9092
   ## @param jobsink.serviceAccount.create Specifies whether a ServiceAccount should be created
-  ## @param jobsink.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
+  ## @param jobsink.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is
+  ## generated using the fullname template
   ## @param jobsink.serviceAccount.annotations Annotations to add to the ServiceAccount Metadata
   ##
   serviceAccount:
     create: true
     name: job-sink
     annotations: {}
-  ## @param jobsink.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+  ## @param jobsink.resources Set container requests and limits for different resources like CPU or memory (essential
+  ## for production workloads)
   ## e.g:
   ##  resources:
   ##   requests:
@@ -335,8 +342,9 @@ jobsink:
   ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   ##
   tolerations: []
-  ## @param jobsink.enableServiceLinks Whether information about services should be injected into pod's environment variable
-  ## The environment variables injected by service links are not used, but can lead to slow boot times or slow running of the scripts when there are many services in the current namespace.
+  ## @param jobsink.enableServiceLinks Whether information about services should be injected into pod's environment
+  ## variable. The environment variables injected by service links are not used, but can lead to slow boot times or slow
+  ## running of the scripts when there are many services in the current namespace.
   ## If you experience slow pod startups or slow running of the scripts you probably want to set this to `false`.
   ##
   enableServiceLinks: false
@@ -371,14 +379,16 @@ mtping:
     metrics: 9090
     probes: 8080
   ## @param mtping.serviceAccount.create Specifies whether a ServiceAccount should be created
-  ## @param mtping.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
+  ## @param mtping.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is
+  ## generated using the fullname template
   ## @param mtping.serviceAccount.annotations Annotations to add to the ServiceAccount Metadata
   ##
   serviceAccount:
     create: true
     name: pingsource-mt-adapter
     annotations: {}
-  ## @param mtping.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+  ## @param mtping.resources Set container requests and limits for different resources like CPU or memory (essential for
+  ## production workloads)
   ## e.g:
   ##  resources:
   ##   requests:
@@ -401,8 +411,9 @@ mtping:
   ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   ##
   tolerations: []
-  ## @param mtping.enableServiceLinks Whether information about services should be injected into pod's environment variable
-  ## The environment variables injected by service links are not used, but can lead to slow boot times or slow running of the scripts when there are many services in the current namespace.
+  ## @param mtping.enableServiceLinks Whether information about services should be injected into pod's environment
+  ## variable. The environment variables injected by service links are not used, but can lead to slow boot times or slow
+  ## running of the scripts when there are many services in the current namespace.
   ## If you experience slow pod startups or slow running of the scripts you probably want to set this to `false`.
   ##
   enableServiceLinks: false
@@ -440,14 +451,16 @@ webhook:
     metrics: 9090
     profiling: 8008
   ## @param webhook.serviceAccount.create Specifies whether a ServiceAccount should be created
-  ## @param webhook.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template
+  ## @param webhook.serviceAccount.name The name of the ServiceAccount to use. If not set and create is true, a name is
+  ## generated using the fullname template
   ## @param webhook.serviceAccount.annotations Annotations to add to the ServiceAccount Metadata
   ##
   serviceAccount:
     create: true
     name: eventing-webhook
     annotations: {}
-  ## @param webhook.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+  ## @param webhook.resources Set container requests and limits for different resources like CPU or memory (essential
+  ## for production workloads)
   ## e.g:
   ##  resources:
   ##   requests:
@@ -496,11 +509,13 @@ webhook:
   ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   ##
   tolerations: []
-  ## @param webhook.enableServiceLinks Whether information about services should be injected into pod's environment variable
-  ## The environment variables injected by service links are not used, but can lead to slow boot times or slow running of the scripts when there are many services in the current namespace.
+  ## @param webhook.enableServiceLinks Whether information about services should be injected into pod's environment
+  ## variable. The environment variables injected by service links are not used, but can lead to slow boot times or slow
+  ## running of the scripts when there are many services in the current namespace.
   ## If you experience slow pod startups or slow running of the scripts you probably want to set this to `false`.
   ##
   enableServiceLinks: false
-  ## @param webhook.terminationGracePeriodSeconds The period of time in seconds after the webhook container receives a termination signal before the container should be terminated
+  ## @param webhook.terminationGracePeriodSeconds The period of time in seconds after the webhook container receives a
+  ## termination signal before the container should be terminated
   ##
   terminationGracePeriodSeconds: 300
