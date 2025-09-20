@@ -9,6 +9,14 @@ releases:
             example.localhost: ""
           network:
             ingress-class: kourier.ingress.networking.knative.dev
+          autoscaler:
+            min-scale: "1"
+            max-scale: "5"
+            max-scale-limit: "100"
+            initial-scale: "0"
+            allow-zero-initial-scale: "true"
+            scale-down-delay: "1m"
+            stable-window: "30s"
 
   - name: kourier
     namespace: kourier-system
@@ -19,13 +27,3 @@ releases:
     namespace: knative-serving
     chart: oci://ghcr.io/ahhhh-man/charts/net-kourier
     version: "*"
-
-  - name: knative-eventing
-    namespace: knative-eventing
-    chart: oci://ghcr.io/ahhhh-man/charts/knative-eventing
-    version: "*"
-    values:
-      - mtping:
-          enabled: false
-        jobsink:
-          enabled: false
