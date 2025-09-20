@@ -3,15 +3,15 @@ name: Release Charts
 on:
   push:
     branches:
-      - 'main'
+      - main
 
 jobs:
   release:
     runs-on: ubuntu-24.04
 
     permissions:
-      contents: write # to push chart release and create a release (helm/chart-releaser-action)
-      packages: write # needed for ghcr access
+      contents: write  # to push chart release and create a release (helm/chart-releaser-action)
+      packages: write  # needed for ghcr access
 
     steps:
       - name: Checkout

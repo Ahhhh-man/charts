@@ -36,6 +36,7 @@
           pre-commit
           codespell
           go-task
+          yamllint
         ];
       in
       {

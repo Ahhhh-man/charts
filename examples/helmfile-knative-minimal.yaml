@@ -1,54 +1,35 @@
 repositories:
-- name: incubator
-  url: https://charts.helm.sh/incubator
+  - name: incubator
+    url: https://charts.helm.sh/incubator
 
 releases:
-- name: knative-serving
-  namespace: knative-serving
-  chart: oci://ghcr.io/ahhhh-man/charts/knative-serving
-  version: "*"
-  wait: true
-  values:
-    - config:
-        domain:
-          example.localhost: ""
-        network:
-          ingress-class: kourier.ingress.networking.knative.dev
+  - name: knative-serving
+    namespace: knative-serving
+    chart: oci://ghcr.io/ahhhh-man/charts/knative-serving
+    version: "*"
+    values:
+      - config:
+          domain:
+            example.localhost: ""
+          network:
+            ingress-class: kourier.ingress.networking.knative.dev
 
-- name: kourier
-  namespace: kourier-system
-  chart: oci://ghcr.io/ahhhh-man/charts/kourier
-  version: "*"
+  - name: kourier
+    namespace: kourier-system
+    chart: oci://ghcr.io/ahhhh-man/charts/kourier
+    version: "*"
 
-- name: net-kourier
-  namespace: knative-serving
-  chart: oci://ghcr.io/ahhhh-man/charts/net-kourier
-  version: "*"
+  - name: net-kourier
+    namespace: knative-serving
+    chart: oci://ghcr.io/ahhhh-man/charts/net-kourier
+    version: "*"
 
-- name: knative-eventing
-  namespace: knative-eventing
-  chart: oci://ghcr.io/ahhhh-man/charts/knative-eventing
-  version: "*"
-  wait: true
-
-- name: helloworld-go
-  namespace: default
-  chart: incubator/raw
-  needs:
-    - knative-serving/knative-serving
-  values:
-    - resources:
-        - apiVersion: serving.knative.dev/v1
-          kind: Service
-          metadata:
-            name: hello
-          spec:
-            template:
-              spec:
-                containers:
-                  - image: ghcr.io/knative/helloworld-go:latest
-                    ports:
-                      - containerPort: 8080
-                    env:
-                      - name: TARGET
-                        value: "World"
+  - name: knative-eventing
+    namespace: knative-eventing
+    chart: oci://ghcr.io/ahhhh-man/charts/knative-eventing
+    version: "*"
+    values:
+      - mtping:
+          enabled: false
+        jobsink:
+          enabled: false
