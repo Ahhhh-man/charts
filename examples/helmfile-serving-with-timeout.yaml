@@ -1,0 +1,61 @@
+repositories:
+  - name: incubator
+    url: https://charts.helm.sh/incubator
+
+releases:
+  - name: knative-serving
+    namespace: knative-serving
+    chart: oci://ghcr.io/ahhhh-man/charts/knative-serving
+    version: "*"
+    wait: true
+    values:
+      - config:
+          defaults:
+            revision-timeout-seconds: "300"
+            max-revision-timeout-seconds: "600"
+            revision-idle-timeout-seconds: "0"
+            revision-response-start-timeout-seconds: "300"
+          domain:
+            example.localhost: ""
+          network:
+            ingress-class: kourier.ingress.networking.knative.dev
+        activator:
+          terminationGracePeriodSeconds: 300
+
+  - name: kourier
+    namespace: kourier-system
+    chart: oci://ghcr.io/ahhhh-man/charts/kourier
+    version: "*"
+
+  - name: net-kourier
+    namespace: knative-serving
+    chart: oci://ghcr.io/ahhhh-man/charts/net-kourier
+    version: "*"
+
+  - name: podinfo
+    namespace: default
+    chart: incubator/raw
+    needs:
+      - knative-serving/knative-serving
+    values:
+      - resources:
+          - apiVersion: serving.knative.dev/v1
+            kind: Service
+            metadata:
+              name: podinfo
+            spec:
+              template:
+                spec:
+                  containers:
+                    - name: podinfo
+                      image: ghcr.io/stefanprodan/podinfo:6.9.2
+                      command: ["./podinfo", "--port=8080"]
+                      ports:
+                        - containerPort: 8080
+                      readinessProbe:
+                        successThreshold: 1
+                        tcpSocket:
+                          port: 0
+                  enableServiceLinks: false
+                  responseStartTimeoutSeconds: 10
+                  timeoutSeconds: 30
